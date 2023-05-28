@@ -1,5 +1,6 @@
 import React from 'react';
 import buttonHeaderStyle from './button-header.module.css';
+import PropTypes from 'prop-types';
 
 export default function ButtonHeader({icon, children, active = false}){
     const Icon = icon;
@@ -10,11 +11,16 @@ export default function ButtonHeader({icon, children, active = false}){
         ${(active && buttonHeaderStyle.active)}`
 
     return(
-        <button className={GetButtonStyle()}>
+        <a className={GetButtonStyle()}>
             <div className={`${buttonHeaderStyle.iconWrapper} mr-2`}>
                 <Icon type={!active && "secondary"}/>
             </div>
             {children}
-        </button>
+        </a>
     )
+}
+ButtonHeader.propTypes = {
+    icon: PropTypes.elementType.isRequired,
+    children: PropTypes.elementType.isRequired,
+    active: PropTypes.bool
 }

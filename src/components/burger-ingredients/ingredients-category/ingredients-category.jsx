@@ -10,7 +10,7 @@ export default function IngredientsCategory(props){
             </h2>
             <div className={`${ingredientCategoryStyle.ingredientsWrapper} mt-6 mr-4 ml-4 mb-10`}>
                 {props.ingredientsFiltered.map(elem=>(
-                    <div className={`${ingredientCategoryStyle.ingredientWrapper}`}>
+                    <div key={elem._id} className={`${ingredientCategoryStyle.ingredientWrapper}`}>
                         <div>
                             <img src={elem.image}/>
                         </div>
@@ -22,7 +22,6 @@ export default function IngredientsCategory(props){
                         {
                             elem?.count &&
                             <Counter size="default" count={elem?.count}/>
-
                         } 
                     </div>
                 ))}

@@ -11,7 +11,7 @@ export default function App() {
       <AppHeader/>
       <main className={`${appStyles.main} pr-4 pl-4`}>
         <BurgerIngredients ingredients={data}/>
-        <BurgerConstructor />
+        <BurgerConstructor ingredients={data}/>
       </main>
     </div>
   );
