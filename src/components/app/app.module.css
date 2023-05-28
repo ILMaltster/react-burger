@@ -1,0 +1,9 @@
+.container{
+    margin: auto;
+    max-width: 1240px;
+}
+.main{
+    display: grid;
+    gap: calc(var(--offset-base-size) * 10);
+    grid-template-columns: 1fr 1fr;
+}
