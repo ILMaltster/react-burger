@@ -1,0 +1,5 @@
+.dragIcon{
+    display: flex;
+    align-items: center;
+    width: calc(var(--offset-base-size) * 8);;
+}
