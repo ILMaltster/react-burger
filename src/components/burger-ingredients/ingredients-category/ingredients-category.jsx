@@ -13,6 +13,7 @@ export default function IngredientsCategory(props){
                     <div 
                         key={elem._id} 
                         className={`${ingredientCategoryStyle.ingredientWrapper}`} 
+                        onClick={()=>props.selectIngridient(elem)}
                     >
                         <div>
                             <img src={elem.image}/>

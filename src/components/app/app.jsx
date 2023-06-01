@@ -23,11 +23,7 @@ export default function App() {
         setIngredients({ ...ingredients, hasError: true, isLoading: false });
       })
   },[])
-
-  useEffect(()=>{
-    console.log(ingredients);
-  },[ingredients])
-
+  
   return (
     <div className={appStyles.container}>
       <AppHeader/>
