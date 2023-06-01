@@ -9,8 +9,11 @@ export default function IngredientsCategory(props){
                 {props.title}
             </h2>
             <div className={`${ingredientCategoryStyle.ingredientsWrapper} mt-6 mr-4 ml-4 mb-10`}>
-                {props.ingredientsFiltered.map(elem=>(
-                    <div key={elem._id} className={`${ingredientCategoryStyle.ingredientWrapper}`}>
+                {props?.ingredientsFiltered && props.ingredientsFiltered.map(elem=>(
+                    <div 
+                        key={elem._id} 
+                        className={`${ingredientCategoryStyle.ingredientWrapper}`} 
+                    >
                         <div>
                             <img src={elem.image}/>
                         </div>

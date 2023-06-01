@@ -6,15 +6,22 @@ import PropTypes from 'prop-types';
 
 export default function BurgerConstructor({ingredients}){
     const [fakeData, setFakeData] = React.useState({
-        bun: ingredients.find(elem=> elem._id ==="60666c42cc7b410027a1a9b1"),
-        mainIngredients: ingredients.filter(elem=>elem.type !== 'bun')
+        bun: undefined,
+        mainIngredients: []
     }) 
-    
+
+    React.useEffect(()=>{
+        setFakeData({
+            bun: ingredients.find?.(elem => elem.type === 'bun'),
+            mainIngredients: ingredients.filter?.(elem=>elem.type !== 'bun')
+        })
+    }, [ingredients])
+
     return(
         <div className={`${burgerConstructorStyle.constructorStyle}`}>
             <div className={`${burgerConstructorStyle.containerWrapper} mt-25`}>
                 {
-                    <ElementWrapper className="mb-4 pr-4" type='top' price={fakeData.bun.price} text={fakeData.bun.name} thumbnail={fakeData.bun.image}/>
+                    <ElementWrapper className="mb-4 pr-4" type='top' price={fakeData.bun?.price} text={fakeData.bun?.name} thumbnail={fakeData.bun?.image}/>
                 }
                 <div className={`${burgerConstructorStyle.container} custom-scroll pr-4`}>
                     {fakeData.mainIngredients.map(elem=>(
@@ -22,14 +29,14 @@ export default function BurgerConstructor({ingredients}){
                     ))}
                 </div>
                 {
-                    <ElementWrapper className="mt-4 pr-4" type='bottom' price={fakeData.bun.price} text={fakeData.bun.name} thumbnail={fakeData.bun.image}/>
+                    <ElementWrapper className="mt-4 pr-4" type='bottom' price={fakeData.bun?.price} text={fakeData.bun?.name} thumbnail={fakeData.bun?.image}/>
                 }
             </div>
             <div className={`${burgerConstructorStyle.submit} mt-10`}>
                 <Button size="large" htmlType='submit'>Оформить заказ</Button>
                 <div className={`${burgerConstructorStyle.currency} text text_type_digits-medium mr-10`}>
                     <div className='mr-2'>
-                        {fakeData.mainIngredients.reduce((accum, current) => accum + current.price, 0) + fakeData.bun.price * 2}
+                        {fakeData.bun && fakeData.mainIngredients.reduce((accum, current) => accum + current.price, 0) + fakeData.bun.price * 2}
                     </div>
                     <CurrencyIcon/>
                 </div>

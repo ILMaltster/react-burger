@@ -3,9 +3,6 @@
     gap: calc(var(--offset-base-size) * 6);
     grid-template-columns: 1fr 1fr;
 }
-.ingredientWrapper{
-    position: relative;
-}
 .ingredientWrapper *{
     display: flex;
     align-items: center;
