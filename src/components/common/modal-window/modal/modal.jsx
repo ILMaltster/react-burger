@@ -11,14 +11,19 @@ export default function Modal({children, onClose, title = ""}){
     const windowWrapperRef = useRef();
 
     useEffect(()=>{
-        windowWrapperRef.current.addEventListener('keypress', function keyListener(e){
-            console.log(e);
-        })
 
-    }, [windowWrapperRef])
+        function keyListener(e){
+            if(e.key === 'Escape') onClose();
+        }
+        document.addEventListener('keydown', keyListener)
+        return(()=>{
+            document.removeEventListener('keydown', keyListener);
+        }
+        )
+    }, [onClose])
     
     return ReactDOM.createPortal(
-        <div ref={windowWrapperRef} className={modalStyle.modalWrapper}>
+        <div className={modalStyle.modalWrapper}>
             <ModalOverlay onClick={onClose}>
                 <div className={`${modalStyle.window}`} onClick={(event) =>event.stopPropagation()}>
                     <div className={modalStyle.titleAndXmark}>

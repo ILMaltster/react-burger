@@ -4,6 +4,7 @@ import IngredientsCategory from './ingredients-category/ingredients-category';
 import burgerIngredientsStyle from './burger-ingredients.module.css';
 import PropTypes from 'prop-types';
 import Modal from '../common/modal-window/modal/modal';
+import IngredientDetail from './ingredient-details/ingredient-details';
 
 const BUN = "Булки"
 const SAUCE = "Соусы"
@@ -59,7 +60,7 @@ export default function BurgerIngredients({ingredients}){
             {
                 isNeedShow &&
                 <Modal title='Детали ингредиента' onClose={()=>setIsNeedShow(false)}>
-                    {selectedIngridient.name}
+                    <IngredientDetail ingredient={selectedIngridient}/>
                 </Modal>   
             }
         </div>
