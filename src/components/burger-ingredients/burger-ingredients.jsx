@@ -59,7 +59,7 @@ export default function BurgerIngredients({ingredients}){
             </div>
             {
                 isNeedShow &&
-                <Modal title='Детали ингредиента' onClose={()=>setIsNeedShow(false)}>
+                <Modal title='Детали ингредиента' onClose={()=>setIsNeedShow(false)} width='720px'>
                     <IngredientDetail ingredient={selectedIngridient}/>
                 </Modal>   
             }

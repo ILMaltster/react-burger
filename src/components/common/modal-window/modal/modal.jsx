@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import modalStyle from './modal.module.css';
 import ModalOverlay from './modal-overlay/modal-overlay';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import PropTypes from 'prop-types';
 
 const portal = document.getElementById("react-modals");
 
-export default function Modal({children, onClose, title = ""}){
+export default function Modal({children, onClose, title = "", width="min-content"}){
     
     const windowWrapperRef = useRef();
 
@@ -25,7 +26,7 @@ export default function Modal({children, onClose, title = ""}){
     return ReactDOM.createPortal(
         <div className={modalStyle.modalWrapper}>
             <ModalOverlay onClick={onClose}>
-                <div className={`${modalStyle.window}`} onClick={(event) =>event.stopPropagation()}>
+                <div style={{maxWidth: width}} className={`${modalStyle.window}`} onClick={(event) =>event.stopPropagation()}>
                     <div className={modalStyle.titleAndXmark}>
                         <div className={`${modalStyle.title} text text_type_main-large`}>
                             {title}
@@ -42,4 +43,10 @@ export default function Modal({children, onClose, title = ""}){
         </div>
         , portal)
     
+}
+
+Modal.propTypes = {
+    onClose: PropTypes.func.isRequired, 
+    title: PropTypes.string, 
+    width: PropTypes.string
 }

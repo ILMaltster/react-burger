@@ -1,16 +1,22 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import burgerConstructorStyle from './burger-constructor.module.css';
 import ElementWrapper from './element-wrapper/element-wrapper';
 import {Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
+import Modal from '../common/modal-window/modal/modal';
+import OrderDetails from './order-details/order-details';
 
 export default function BurgerConstructor({ingredients}){
-    const [fakeData, setFakeData] = React.useState({
+    const [isNeedShow, setIsNeedShow] = useState(false);
+
+    const [fakeData, setFakeData] = useState({
         bun: undefined,
         mainIngredients: []
     }) 
 
-    React.useEffect(()=>{
+    const getFakeOrderNumber = ()=> Math.round(Math.random()*999999-1);
+
+    useEffect(()=>{
         setFakeData({
             bun: ingredients.find?.(elem => elem.type === 'bun'),
             mainIngredients: ingredients.filter?.(elem=>elem.type !== 'bun')
@@ -33,7 +39,7 @@ export default function BurgerConstructor({ingredients}){
                 }
             </div>
             <div className={`${burgerConstructorStyle.submit} mt-10`}>
-                <Button size="large" htmlType='submit'>Оформить заказ</Button>
+                <Button size="large" htmlType='submit' onClick={()=>setIsNeedShow(true)}>Оформить заказ</Button>
                 <div className={`${burgerConstructorStyle.currency} text text_type_digits-medium mr-10`}>
                     <div className='mr-2'>
                         {fakeData.bun && fakeData.mainIngredients.reduce((accum, current) => accum + current.price, 0) + fakeData.bun.price * 2}
@@ -41,6 +47,12 @@ export default function BurgerConstructor({ingredients}){
                     <CurrencyIcon/>
                 </div>
             </div>
+            {
+                isNeedShow && 
+                <Modal onClose={()=>setIsNeedShow(false)} width='720px'>
+                    <OrderDetails orderNumber={getFakeOrderNumber()}/>
+                </Modal>
+            }
         </div>
     )
 }
