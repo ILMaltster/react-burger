@@ -1,0 +1,4 @@
+.IngredientsCategoryWrapper{
+    overflow-y: auto;
+    height: calc(100vh - 275px);
+}
