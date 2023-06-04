@@ -5,10 +5,8 @@ import burgerIngredientsStyle from './burger-ingredients.module.css';
 import PropTypes from 'prop-types';
 import Modal from '../common/modal-window/modal/modal';
 import IngredientDetail from './ingredient-details/ingredient-details';
+import {BUN, MAIN, SAUCE} from './../../utils/consts'
 
-const BUN = "Булки"
-const SAUCE = "Соусы"
-const MAIN = "Начинки"
 
 export default function BurgerIngredients({ingredients}){
     

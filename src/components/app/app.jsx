@@ -3,9 +3,9 @@ import appStyles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import { SERVER_ADDRESS } from '../../utils/consts';
 import checkResponseAndReturnPromiseJson from '../../utils/checkResponseAndReturnPromiseJson';
 import Modal from '../common/modal-window/modal/modal';
+import getIngredients from '../../utils/api/GetIngredients';
 
 export default function App() {
   const [ingredients, setIngredients] = useState({
@@ -16,8 +16,7 @@ export default function App() {
   })
 
   useEffect(()=>{
-    fetch(`${SERVER_ADDRESS}/api/ingredients`)
-      .then(res=> checkResponseAndReturnPromiseJson(res))
+    getIngredients()      
       .then(data => setIngredients(prev => ({...prev, ...data})))
       .catch(e=>{
         setIngredients({ ...ingredients, hasError: true, isLoading: false });

@@ -5,6 +5,8 @@ import {Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-comp
 import PropTypes from 'prop-types';
 import Modal from '../common/modal-window/modal/modal';
 import OrderDetails from './order-details/order-details';
+import {BUN} from '../../utils/consts';
+
 
 export default function BurgerConstructor({ingredients}){
     const [isNeedShow, setIsNeedShow] = useState(false);
@@ -18,8 +20,8 @@ export default function BurgerConstructor({ingredients}){
 
     useEffect(()=>{
         setFakeData({
-            bun: ingredients.find?.(elem => elem.type === 'bun'),
-            mainIngredients: ingredients.filter?.(elem=>elem.type !== 'bun')
+            bun: ingredients.find?.(elem => elem.type === BUN),
+            mainIngredients: ingredients.filter?.(elem=>elem.type !== BUN)
         })
     }, [ingredients])
 
