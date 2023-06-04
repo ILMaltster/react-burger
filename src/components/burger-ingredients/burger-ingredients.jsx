@@ -5,7 +5,7 @@ import burgerIngredientsStyle from './burger-ingredients.module.css';
 import PropTypes from 'prop-types';
 import Modal from '../common/modal-window/modal/modal';
 import IngredientDetail from './ingredient-details/ingredient-details';
-import {BUN, MAIN, SAUCE} from './../../utils/consts'
+import {BUNS, MAINS, SAUCE, INGREDIENT_TYPE_BUN, INGREDIENT_TYPE_MAIN, INGREDIENT_TYPE_SAUCE} from './../../utils/consts'
 
 
 export default function BurgerIngredients({ingredients}){
@@ -22,18 +22,18 @@ export default function BurgerIngredients({ingredients}){
     const Categories = useCallback(()=>
         <>
             <IngredientsCategory 
-                title={BUN} 
-                ingredientsFiltered={ingredients?.filter && ingredients.filter(elem => elem.type === "bun")}
+                title={BUNS} 
+                ingredientsFiltered={ingredients?.filter && ingredients.filter(elem => elem.type === INGREDIENT_TYPE_BUN)}
                 selectIngridient={selectIngridientAndOpenModal}
             />
             <IngredientsCategory 
                 title={SAUCE} 
-                ingredientsFiltered={ingredients?.filter && ingredients?.filter(elem => elem.type === "sauce")}
+                ingredientsFiltered={ingredients?.filter && ingredients?.filter(elem => elem.type === INGREDIENT_TYPE_SAUCE)}
                 selectIngridient={selectIngridientAndOpenModal}
             />
             <IngredientsCategory 
-                title={MAIN} 
-                ingredientsFiltered={ingredients?.filter && ingredients?.filter(elem => elem.type === "main")}
+                title={MAINS} 
+                ingredientsFiltered={ingredients?.filter && ingredients?.filter(elem => elem.type === INGREDIENT_TYPE_MAIN)}
                 selectIngridient={selectIngridientAndOpenModal}
             />
         </>
@@ -42,14 +42,14 @@ export default function BurgerIngredients({ingredients}){
         <div className='mt-10'>
             <h1 className='text text_type_main-large mb-5'>Соберите бургер</h1>
             <div style={{ display: 'flex' }}>
-                <Tab value="Булки" active={currentTab === 'one'} onClick={()=>setCurrentTab("one")}>
-                    {BUN}
+                <Tab value={BUNS} active={currentTab === 'one'} onClick={()=>setCurrentTab("one")}>
+                    {BUNS}
                 </Tab>
-                <Tab value="Соусы" active={currentTab === 'two'} onClick={()=>setCurrentTab("two")}>
+                <Tab value={SAUCE} active={currentTab === 'two'} onClick={()=>setCurrentTab("two")}>
                     {SAUCE}
                 </Tab>
-                <Tab value="Начинки" active={currentTab === 'three'} onClick={()=>setCurrentTab("three")}>
-                    {MAIN}
+                <Tab value={MAINS} active={currentTab === 'three'} onClick={()=>setCurrentTab("three")}>
+                    {MAINS}
                 </Tab>
             </div>
             <div className={`${burgerIngredientsStyle.IngredientsCategoryWrapper} custom-scroll pt-10`}>
