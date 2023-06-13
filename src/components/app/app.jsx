@@ -3,32 +3,27 @@ import appStyles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 import BurgerConstructor from '../burger-constructor/burger-constructor';
-import checkResponseAndReturnPromiseJson from '../../utils/checkResponseAndReturnPromiseJson';
-import Modal from '../common/modal-window/modal/modal';
-import getIngredients from '../../utils/api/GetIngredients';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadIngredients } from '../../services/all-ingredients/actions';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 export default function App() {
-  const [ingredients, setIngredients] = useState({
-    isLoading: false,
-    hasError: false,
-    success: false,
-    data: []
-  })
+  const dispatch = useDispatch();
+  const ingredients = useSelector(store=>store.allIngredients)
 
   useEffect(()=>{
-    getIngredients()      
-      .then(data => setIngredients(prev => ({...prev, ...data})))
-      .catch(e=>{
-        setIngredients({ ...ingredients, hasError: true, isLoading: false });
-      })
+    dispatch(loadIngredients());
   },[])
-  
+
   return (
     <div className={appStyles.container}>
       <AppHeader/>
       <main className={`${appStyles.main} pr-4 pl-4`}>
-        <BurgerIngredients ingredients={ingredients.data}/>
-        <BurgerConstructor ingredients={ingredients.data}/>
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngredients/>
+          <BurgerConstructor/>
+        </DndProvider>
       </main>
     </div>
   );

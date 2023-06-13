@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientsCategory from './ingredients-category/ingredients-category';
 import burgerIngredientsStyle from './burger-ingredients.module.css';
@@ -6,10 +6,12 @@ import PropTypes from 'prop-types';
 import Modal from '../common/modal-window/modal/modal';
 import IngredientDetail from './ingredient-details/ingredient-details';
 import {BUNS, MAINS, SAUCE, INGREDIENT_TYPE_BUN, INGREDIENT_TYPE_MAIN, INGREDIENT_TYPE_SAUCE} from './../../utils/consts'
+import {useSelector} from 'react-redux';
 
 
-export default function BurgerIngredients({ingredients}){
-    
+export default function BurgerIngredients(){
+    const ingredients = useSelector(state=>state.allIngredients.data)
+
     const [currentTab, setCurrentTab] = useState('one')
     const [selectedIngridient, setSelectedIngredient] = useState({});
     const [isNeedShow, setIsNeedShow] = useState(false);
@@ -38,6 +40,7 @@ export default function BurgerIngredients({ingredients}){
             />
         </>
     ,[ingredients])
+    
     return(
         <div className='mt-10'>
             <h1 className='text text_type_main-large mb-5'>Соберите бургер</h1>

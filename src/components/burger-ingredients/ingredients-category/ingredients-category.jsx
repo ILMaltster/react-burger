@@ -1,6 +1,6 @@
 import React from 'react';
 import ingredientCategoryStyle from './ingredients-category.module.css'
-import {CurrencyIcon, Counter} from '@ya.praktikum/react-developer-burger-ui-components';
+import Ingredient from './ingredient/ingredient';
 
 export default function IngredientsCategory(props){
     return(
@@ -10,24 +10,11 @@ export default function IngredientsCategory(props){
             </h2>
             <div className={`${ingredientCategoryStyle.ingredientsWrapper} mt-6 mr-4 ml-4 mb-10`}>
                 {props?.ingredientsFiltered && props.ingredientsFiltered.map(elem=>(
-                    <div 
+                    <Ingredient 
                         key={elem._id} 
-                        className={`${ingredientCategoryStyle.ingredientWrapper}`} 
+                        data={elem} 
                         onClick={()=>props.selectIngridient(elem)}
-                    >
-                        <div>
-                            <img src={elem.image}/>
-                        </div>
-                        <div>
-                            <div className={`text text_type_digits-default mt-1 mb-1 mr-1`}>{elem.price} </div>
-                            <CurrencyIcon/>
-                        </div>
-                        <div className={`${ingredientCategoryStyle.title} text text_type_main-default`}>{elem.name}</div>
-                        {
-                            elem?.count &&
-                            <Counter size="default" count={elem?.count}/>
-                        } 
-                    </div>
+                    />
                 ))}
             </div>
         </div>

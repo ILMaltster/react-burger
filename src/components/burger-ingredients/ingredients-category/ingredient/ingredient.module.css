@@ -1,0 +1,15 @@
+.ingredientWrapper *{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ingredientWrapper{
+    padding: 10px;
+}
+.title{
+    text-align: center;
+}
+.draggIngredient{
+    background: #4c4cff;
+    border-radius: 1rem;
+}

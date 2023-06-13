@@ -6,17 +6,24 @@ import PropTypes from 'prop-types';
 import Modal from '../common/modal-window/modal/modal';
 import OrderDetails from './order-details/order-details';
 import {INGREDIENT_TYPE_BUN} from '../../utils/consts'
+import {useSelector} from 'react-redux';
 
+export default function BurgerConstructor(){
+    const ingredients = useSelector(state=>state.allIngredients.data)
 
-export default function BurgerConstructor({ingredients}){
     const [isNeedShow, setIsNeedShow] = useState(false);
+    const constructorData = useSelector(store => store.constructorIngredients)
+
+    const getFakeOrderNumber = ()=> Math.round(Math.random()*999999-1);
 
     const [fakeData, setFakeData] = useState({
         bun: undefined,
         mainIngredients: []
     }) 
 
-    const getFakeOrderNumber = ()=> Math.round(Math.random()*999999-1);
+    useEffect(()=>{
+        console.log(constructorData)
+    },[constructorData])
 
     useEffect(()=>{
         setFakeData({
@@ -29,22 +36,22 @@ export default function BurgerConstructor({ingredients}){
         <div className={`${burgerConstructorStyle.constructorStyle}`}>
             <div className={`${burgerConstructorStyle.containerWrapper} mt-25`}>
                 {
-                    <ElementWrapper className="mb-4 pr-4" type='top' price={fakeData.bun?.price} text={fakeData.bun?.name} thumbnail={fakeData.bun?.image}/>
+                    <ElementWrapper className="mb-4 pr-4" type='top' price={constructorData.bun?.price} text={constructorData.bun?.name} thumbnail={constructorData.bun?.image}/>
                 }
                 <div className={`${burgerConstructorStyle.container} custom-scroll pr-4`}>
-                    {fakeData.mainIngredients.map(elem=>(
+                    {constructorData.mainIngredients.map(elem=>(
                         <ElementWrapper key={elem._id} price={elem.price} text={elem.name} thumbnail={elem.image}/>
                     ))}
                 </div>
                 {
-                    <ElementWrapper className="mt-4 pr-4" type='bottom' price={fakeData.bun?.price} text={fakeData.bun?.name} thumbnail={fakeData.bun?.image}/>
+                    <ElementWrapper className="mt-4 pr-4" type='bottom' price={constructorData.bun?.price} text={constructorData.bun?.name} thumbnail={constructorData.bun?.image}/>
                 }
             </div>
             <div className={`${burgerConstructorStyle.submit} mt-10`}>
                 <Button size="large" htmlType='submit' onClick={()=>setIsNeedShow(true)}>Оформить заказ</Button>
                 <div className={`${burgerConstructorStyle.currency} text text_type_digits-medium mr-10`}>
                     <div className='mr-2'>
-                        {fakeData.bun && fakeData.mainIngredients.reduce((accum, current) => accum + current.price, 0) + fakeData.bun.price * 2}
+                        {constructorData.bun && constructorData.mainIngredients.reduce((accum, current) => accum + current.price, 0) + constructorData.bun.price * 2}
                     </div>
                     <CurrencyIcon/>
                 </div>
