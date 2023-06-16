@@ -2,7 +2,6 @@ import {useState, useEffect} from 'react';
 import burgerConstructorStyle from './burger-constructor.module.css';
 import ElementWrapper from './element-wrapper/element-wrapper';
 import {Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 import Modal from '../common/modal-window/modal/modal';
 import OrderDetails from './order-details/order-details';
 import {INGREDIENT_TYPE_BUN} from '../../utils/consts'
@@ -15,7 +14,6 @@ import { uploadOrderIngredients } from '../../services/order/action';
 import { resetOrderDetails } from '../../services/order/reducer';
 
 export default function BurgerConstructor(){
-    const ingredients = useSelector(state=>state.allIngredients.data);
     const constructorData = useSelector(store => store.constructorIngredients);
     const orderStore = useSelector(store => store.order);
 
@@ -36,9 +34,6 @@ export default function BurgerConstructor(){
     })
 
     const [isNeedShow, setIsNeedShow] = useState(false);
-
-    const getFakeOrderNumber = ()=> Math.round(Math.random()*999999-1);
-
 
     const deleteIngredientFromConstructor = (item)=>{
 
@@ -130,7 +125,7 @@ export default function BurgerConstructor(){
             {
                 isNeedShow && 
                 <Modal onClose={closeOrderDetailsWindow} maxWidth='720px'>
-                    <OrderDetails orderNumber={getFakeOrderNumber()}/>
+                    <OrderDetails/>
                 </Modal>
             }
         </div>
