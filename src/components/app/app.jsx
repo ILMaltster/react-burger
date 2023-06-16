@@ -10,7 +10,6 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 
 export default function App() {
   const dispatch = useDispatch();
-  const ingredients = useSelector(store=>store.allIngredients)
 
   useEffect(()=>{
     dispatch(loadIngredients());

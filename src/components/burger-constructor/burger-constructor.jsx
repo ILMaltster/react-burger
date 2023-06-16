@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import burgerConstructorStyle from './burger-constructor.module.css';
 import ElementWrapper from './element-wrapper/element-wrapper';
 import {Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
@@ -6,80 +6,133 @@ import PropTypes from 'prop-types';
 import Modal from '../common/modal-window/modal/modal';
 import OrderDetails from './order-details/order-details';
 import {INGREDIENT_TYPE_BUN} from '../../utils/consts'
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import { useDrop } from 'react-dnd';
+import { addIngredientToConstructor, deleteIngredient } from '../../services/constructor/reducer';
+import { decreaseItemCount, increaseItemCount } from '../../services/all-ingredients/reducer';
+import PlugIngredient from './plug-ingredient/plug-ingredient';
+import { uploadOrderIngredients } from '../../services/order/action';
+import { resetOrderDetails } from '../../services/order/reducer';
 
 export default function BurgerConstructor(){
-    const ingredients = useSelector(state=>state.allIngredients.data)
+    const ingredients = useSelector(state=>state.allIngredients.data);
+    const constructorData = useSelector(store => store.constructorIngredients);
+    const orderStore = useSelector(store => store.order);
+
+    const dispatch = useDispatch();
+
+    const [{}, dropTarget] = useDrop({
+        accept: "ingredient",
+        collect: monitor =>({
+
+        }),
+        drop(item){
+            dispatch(addIngredientToConstructor({item}));
+            if(item.type === INGREDIENT_TYPE_BUN && constructorData.bun)
+                dispatch(decreaseItemCount({id: constructorData.bun._id}))
+
+            dispatch(increaseItemCount({id: item._id}))
+        }
+    })
 
     const [isNeedShow, setIsNeedShow] = useState(false);
-    const constructorData = useSelector(store => store.constructorIngredients)
 
     const getFakeOrderNumber = ()=> Math.round(Math.random()*999999-1);
 
-    const [fakeData, setFakeData] = useState({
-        bun: undefined,
-        mainIngredients: []
-    }) 
+
+    const deleteIngredientFromConstructor = (item)=>{
+
+        dispatch(decreaseItemCount({id: item._id}))
+        dispatch(deleteIngredient({key: item.key}))
+    }
+
+
+    const calculateOrderPrice = ()=>{
+        let price = 0;
+        if(constructorData.mainIngredients)
+            price += constructorData.mainIngredients.reduce((accum, current) => accum + current.price, 0);
+        
+        if(constructorData.bun)
+            price += constructorData.bun.price * 2
+
+        return price;
+    }
+
+    const sendOrder = ()=>{
+        let ids = [...constructorData.mainIngredients.map(elem=>elem._id), constructorData.bun._id];
+        dispatch(uploadOrderIngredients(ids))
+    }
 
     useEffect(()=>{
-        console.log(constructorData)
-    },[constructorData])
+        if(orderStore.order !== null){
+            setIsNeedShow(true)
+        }
+    }, [orderStore])
 
-    useEffect(()=>{
-        setFakeData({
-            bun: ingredients.find?.(elem => elem.type === INGREDIENT_TYPE_BUN),
-            mainIngredients: ingredients.filter?.(elem=>elem.type !== INGREDIENT_TYPE_BUN)
-        })
-    }, [ingredients])
+    const closeOrderDetailsWindow = ()=>{
+        setIsNeedShow(false);
+        dispatch(resetOrderDetails());
+    }
 
     return(
         <div className={`${burgerConstructorStyle.constructorStyle}`}>
-            <div className={`${burgerConstructorStyle.containerWrapper} mt-25`}>
+            <div ref={dropTarget} className={`${burgerConstructorStyle.containerWrapper} mt-25`}>
                 {
-                    <ElementWrapper className="mb-4 pr-4" type='top' price={constructorData.bun?.price} text={constructorData.bun?.name} thumbnail={constructorData.bun?.image}/>
+                    constructorData.bun ?
+                    <ElementWrapper 
+                        ingredient={constructorData.bun}
+                        isLocked={true}
+                        className="mb-4 pr-4" 
+                        type='top' 
+                    />
+                    :
+                    <PlugIngredient text="Перенесите булку" type="top"/>
                 }
-                <div className={`${burgerConstructorStyle.container} custom-scroll pr-4`}>
-                    {constructorData.mainIngredients.map(elem=>(
-                        <ElementWrapper key={elem._id} price={elem.price} text={elem.name} thumbnail={elem.image}/>
-                    ))}
+                <div className={`${burgerConstructorStyle.container} custom-scroll`}>
+                    {constructorData.mainIngredients && constructorData.mainIngredients.length > 0 ? constructorData.mainIngredients.map(elem=>(
+                        <ElementWrapper
+                            ingredient={elem}
+                            key={elem.key}
+                            handleClose={()=>deleteIngredientFromConstructor(elem)}
+                        />
+                    ))
+                    :
+                    <PlugIngredient text="Перенесите ингредиенты"/>
+                }
                 </div>
                 {
-                    <ElementWrapper className="mt-4 pr-4" type='bottom' price={constructorData.bun?.price} text={constructorData.bun?.name} thumbnail={constructorData.bun?.image}/>
+                    constructorData.bun ?
+                    <ElementWrapper 
+                        ingredient={constructorData.bun}
+                        isLocked={true}
+                        className="mt-4 pr-4" 
+                        type='bottom' 
+                    />
+                    :
+                    <PlugIngredient text="Перенесите булку" type="bottom"/>
                 }
             </div>
             <div className={`${burgerConstructorStyle.submit} mt-10`}>
-                <Button size="large" htmlType='submit' onClick={()=>setIsNeedShow(true)}>Оформить заказ</Button>
+                <Button 
+                    disabled={!constructorData.bun && !constructorData.mainIngredients.length > 0} 
+                    size="large" htmlType='submit' 
+                    onClick={sendOrder}
+                >
+                    Оформить заказ
+                </Button>
                 <div className={`${burgerConstructorStyle.currency} text text_type_digits-medium mr-10`}>
                     <div className='mr-2'>
-                        {constructorData.bun && constructorData.mainIngredients.reduce((accum, current) => accum + current.price, 0) + constructorData.bun.price * 2}
+                        { calculateOrderPrice() }
                     </div>
                     <CurrencyIcon/>
                 </div>
             </div>
             {
                 isNeedShow && 
-                <Modal onClose={()=>setIsNeedShow(false)} width='720px'>
+                <Modal onClose={closeOrderDetailsWindow} maxWidth='720px'>
                     <OrderDetails orderNumber={getFakeOrderNumber()}/>
                 </Modal>
             }
         </div>
     )
-}
-BurgerConstructor.propTypes = {
-    ingredients: PropTypes.arrayOf(PropTypes.shape(
-    {
-        "_id": PropTypes.string.isRequired,
-        "name":PropTypes.string.isRequired,
-        "type":PropTypes.string.isRequired,
-        "proteins":PropTypes.number.isRequired,
-        "fat":PropTypes.number.isRequired,
-        "carbohydrates":PropTypes.number.isRequired,
-        "calories":PropTypes.number.isRequired,
-        "price":PropTypes.number.isRequired,
-        "image":PropTypes.string.isRequired,
-        "image_mobile":PropTypes.string.isRequired,
-        "image_large":PropTypes.string.isRequired,
-        "__v":PropTypes.number.isRequired
-    }
-    ).isRequired).isRequired
 }

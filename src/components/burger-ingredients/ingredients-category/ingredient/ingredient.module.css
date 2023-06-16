@@ -5,6 +5,7 @@
 }
 .ingredientWrapper{
     padding: 10px;
+    position: relative;
 }
 .title{
     text-align: center;

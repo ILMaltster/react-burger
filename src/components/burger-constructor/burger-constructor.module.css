@@ -12,6 +12,7 @@
 .containerWrapper{
     display: grid;
     grid-template-rows: min-content auto min-content;
+    gap: 8px;
 }
 .submit{
     display: flex;

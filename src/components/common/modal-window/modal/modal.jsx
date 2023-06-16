@@ -7,10 +7,7 @@ import PropTypes from 'prop-types';
 
 const portal = document.getElementById("react-modals");
 
-export default function Modal({children, onClose, title = "", width="min-content"}){
-    
-    const windowWrapperRef = useRef();
-
+export default function Modal({children, onClose, title = "", maxWidth="min-content"}){
     useEffect(()=>{
 
         function keyListener(e){
@@ -26,7 +23,7 @@ export default function Modal({children, onClose, title = "", width="min-content
     return ReactDOM.createPortal(
         <div className={modalStyle.modalWrapper}>
             <ModalOverlay onClick={onClose}>
-                <div style={{maxWidth: width}} className={`${modalStyle.window}`} onClick={(event) =>event.stopPropagation()}>
+                <div style={{maxWidth: maxWidth}} className={`${modalStyle.window}`} onClick={(event) =>event.stopPropagation()}>
                     <div className={modalStyle.titleAndXmark}>
                         <div className={`${modalStyle.title} text text_type_main-large`}>
                             {title}
@@ -46,6 +43,7 @@ export default function Modal({children, onClose, title = "", width="min-content
 }
 
 Modal.propTypes = {
+    children: PropTypes.element.isRequired,
     onClose: PropTypes.func.isRequired, 
     title: PropTypes.string, 
     width: PropTypes.string
