@@ -22,23 +22,20 @@ function ElementWrapper(props){
         },
     })
 
-    const [{border}, drag, preview] = useDrag({
+    const [{}, drag] = useDrag({
         type: "constructorIngredient",
         item: ingredient,
+        
     })
-
-    const img = new Image();
-    img.src = ingredient.image;
-    preview(img);
-
+    
+    drag(drop(ref));
     return(
         <>
-            <DragPreviewImage connect={preview} src={ingredient.image}/>
-            <div ref={drop} style={{display: "flex", border}} className={props.className}>
+            <div ref={ref} style={{display: "flex"}} className={props.className}>
                 <div className={`${elementWrapperStyle.dragIcon}`}>
                     {
                         (props.type !== 'top' && props.type !== 'bottom') &&
-                        <div ref={drag}>
+                        <div>
                             <DragIcon/>
                         </div>
                     }
