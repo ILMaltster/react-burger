@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useMemo} from 'react';
 import burgerConstructorStyle from './burger-constructor.module.css';
 import ElementWrapper from './element-wrapper/element-wrapper';
 import {Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
@@ -14,7 +14,7 @@ import { uploadOrderIngredients } from '../../services/order/action';
 import { resetOrderDetails } from '../../services/order/reducer';
 
 export default function BurgerConstructor(){
-    const constructorData = useSelector(store => store.constructorIngredients);
+    const constructorData = useSelector(function getStore(store) {return store.constructorIngredients});
     const orderStore = useSelector(store => store.order);
 
     const dispatch = useDispatch();
@@ -25,7 +25,7 @@ export default function BurgerConstructor(){
 
         }),
         drop(item){
-            dispatch(addIngredientToConstructor({item}));
+            dispatch(addIngredientToConstructor({item : {...item, key: Math.random()}}));
             if(item.type === INGREDIENT_TYPE_BUN && constructorData.bun)
                 dispatch(decreaseItemCount({id: constructorData.bun._id}))
 
@@ -42,7 +42,7 @@ export default function BurgerConstructor(){
     }
 
 
-    const calculateOrderPrice = ()=>{
+    const calculateOrderPrice = useMemo(()=>{
         let price = 0;
         if(constructorData.mainIngredients)
             price += constructorData.mainIngredients.reduce((accum, current) => accum + current.price, 0);
@@ -51,7 +51,7 @@ export default function BurgerConstructor(){
             price += constructorData.bun.price * 2
 
         return price;
-    }
+    }, [constructorData.mainIngredients, constructorData.bun])
 
     const sendOrder = ()=>{
         let ids = [...constructorData.mainIngredients.map(elem=>elem._id), constructorData.bun._id];
@@ -117,7 +117,7 @@ export default function BurgerConstructor(){
                 </Button>
                 <div className={`${burgerConstructorStyle.currency} text text_type_digits-medium mr-10`}>
                     <div className='mr-2'>
-                        { calculateOrderPrice() }
+                        { calculateOrderPrice }
                     </div>
                     <CurrencyIcon/>
                 </div>

@@ -16,7 +16,7 @@ const constructorSlice = createSlice({
                 state.bun = ingredient;
             }
             else{
-                state.mainIngredients.push({...ingredient, key: Math.random()});
+                state.mainIngredients.push({...ingredient});
             }
         },
         deleteIngredient:(state, action)=>{

@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import { swapIngredient } from '../../../services/constructor/reducer';
 import { INGREDIENT_TYPE_BUN } from '../../../utils/consts';
 
-export default function ElementWrapper(props){
+function ElementWrapper(props){
     const ingredient = props.ingredient;
     const ref = useRef();
     const dispatch = useDispatch();
@@ -22,19 +22,19 @@ export default function ElementWrapper(props){
         },
     })
 
-    const [{}, drag, preview] = useDrag({
+    const [{border}, drag, preview] = useDrag({
         type: "constructorIngredient",
         item: ingredient,
     })
 
     const img = new Image();
-    img.src = props.thumbnail;
+    img.src = ingredient.image;
     preview(img);
 
     return(
         <>
             <DragPreviewImage connect={preview} src={ingredient.image}/>
-            <div ref={drop} style={{display: "flex"}} className={props.className}>
+            <div ref={drop} style={{display: "flex", border}} className={props.className}>
                 <div className={`${elementWrapperStyle.dragIcon}`}>
                     {
                         (props.type !== 'top' && props.type !== 'bottom') &&
@@ -55,6 +55,8 @@ export default function ElementWrapper(props){
         </>
     )
 }
+
+export default React.memo(ElementWrapper);
 
 ElementWrapper.propTypes = {
     ingredient: PropTypes.shape(
