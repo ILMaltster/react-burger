@@ -2,6 +2,7 @@ import React, {forwardRef, useEffect} from 'react';
 import ingredientCategoryStyle from './ingredients-category.module.css'
 import Ingredient from './ingredient/ingredient';
 import PropTypes from 'prop-types';
+import { ingredientPropType } from '../../../utils/prop-types';
 
 const IngredientsCategory = forwardRef((props, ref)=>{
     return(
@@ -24,22 +25,7 @@ const IngredientsCategory = forwardRef((props, ref)=>{
 export default IngredientsCategory;
 
 IngredientsCategory.propTypes ={
-    ingredientsFiltered: PropTypes.arrayOf(PropTypes.shape(
-        {
-            "_id": PropTypes.string.isRequired,
-            "name":PropTypes.string.isRequired,
-            "type":PropTypes.string.isRequired,
-            "proteins":PropTypes.number.isRequired,
-            "fat":PropTypes.number.isRequired,
-            "carbohydrates":PropTypes.number.isRequired,
-            "calories":PropTypes.number.isRequired,
-            "price":PropTypes.number.isRequired,
-            "image":PropTypes.string.isRequired,
-            "image_mobile":PropTypes.string.isRequired,
-            "image_large":PropTypes.string.isRequired,
-            "__v":PropTypes.number.isRequired
-        }
-        ).isRequired).isRequired,
+    ingredientsFiltered: PropTypes.arrayOf(ingredientPropType.isRequired).isRequired,
     title: PropTypes.string.isRequired,
     selectIngridient: PropTypes.func.isRequired
 }
