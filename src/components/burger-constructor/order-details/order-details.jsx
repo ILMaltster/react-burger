@@ -8,7 +8,7 @@ export default function OrderDetails(){
     return(
         <div className={`${orderDetailsStyle.wrapper}`}>
             <div className={`${orderDetailsStyle.number} text text_type_digits-large mt-8`}>
-                {String(orderNumber).padStart(6, '0')}
+                {orderNumber && String(orderNumber).padStart(6, '0')}
             </div>
             <div className='text text_type_main-default mt-8'>
                 идентификатор заказа

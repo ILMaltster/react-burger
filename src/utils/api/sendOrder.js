@@ -1,4 +1,4 @@
-import checkResponseAndReturnPromiseJson from "../checkResponseAndReturnPromiseJson";
+import checkResponse from "../checkResponse";
 import { SERVER_ADDRESS } from "../consts";
 
 export default function sendOrder(idsListForOrder){
@@ -7,7 +7,8 @@ export default function sendOrder(idsListForOrder){
         body: JSON.stringify({ingredients: idsListForOrder}),
         headers: {
             "Content-Type": "application/json",
+            authorization: localStorage.getItem('accessToken'),
         },
     }
-    return fetch(`${SERVER_ADDRESS}/api/orders`, options).then(checkResponseAndReturnPromiseJson);
+    return fetch(`${SERVER_ADDRESS}/api/orders`, options).then(checkResponse);
 }

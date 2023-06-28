@@ -7,14 +7,14 @@ export default function AppHeader(){
     return(
         <header className={appHeaderStyle.header + " p-4"}>
             <div className={appHeaderStyle.nav}>
-                <ButtonHeader icon={BurgerIcon} active={true}>Конструктор</ButtonHeader>
-                <ButtonHeader icon={ListIcon}>Лента заказов</ButtonHeader>
+                <ButtonHeader to="/" icon={BurgerIcon}>Конструктор</ButtonHeader>
+                <ButtonHeader to="/orders" icon={ListIcon}>Лента заказов</ButtonHeader>
             </div>
             <div className={appHeaderStyle.logoWrapper}>
                 <Logo />
             </div>
             <div className={appHeaderStyle.profileWrapper}>
-                <ButtonHeader icon={ProfileIcon}>Личный кабинет</ButtonHeader>
+                <ButtonHeader to="/profile" icon={ProfileIcon}>Личный кабинет</ButtonHeader>
             </div>
         </header>
     )

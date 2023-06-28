@@ -31,6 +31,12 @@ const allIngredientsSlice = createSlice({
                 
                 return elem;
             })
+        },
+        resetItemCount:(state, action)=>{
+            state.data = state.data.map(elem=>{
+                elem.countIngredient = 0
+                return elem;
+            })
         }        
     },
     extraReducers: (builder)=>{
@@ -53,5 +59,5 @@ const allIngredientsSlice = createSlice({
     }
 })
 
-export const {increaseItemCount, decreaseItemCount} = allIngredientsSlice.actions;
+export const {increaseItemCount, decreaseItemCount, resetItemCount} = allIngredientsSlice.actions;
 export const allIngredientsReducer = allIngredientsSlice.reducer;

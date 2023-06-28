@@ -3,6 +3,7 @@ import { allIngredientsReducer } from './all-ingredients/reducer';
 import { constructorIngredientsReducer } from './constructor/reducer';
 import { currentIngredientReducer } from './current-ingredient/reducer';
 import { orderReducer } from './order/reducer';
+import { userReducer } from './user/reducer';
 
 export const getStore = (initialState)=>{
     const store = configureStore({
@@ -10,7 +11,8 @@ export const getStore = (initialState)=>{
             allIngredients: allIngredientsReducer,
             constructorIngredients: constructorIngredientsReducer,
             currentIngredient: currentIngredientReducer,
-            order: orderReducer
+            order: orderReducer,
+            user: userReducer
         },
         preloadedState: initialState,
     })

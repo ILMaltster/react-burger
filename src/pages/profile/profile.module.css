@@ -1,0 +1,16 @@
+.container{
+    display: grid;
+    grid-template-columns: 320px auto;
+    gap: calc(var(--offset-base-size) * 15)
+}
+.nav{
+    display: flex;
+    flex-direction: column;
+    /* gap: calc(var(--offset-base-size) * 5) */
+}
+.description{
+    opacity: 60%;
+}
+.activeLink{
+    color: white;
+}

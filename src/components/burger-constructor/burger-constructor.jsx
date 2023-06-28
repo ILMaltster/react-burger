@@ -7,13 +7,16 @@ import OrderDetails from './order-details/order-details';
 import {INGREDIENT_TYPE_BUN} from '../../utils/consts'
 import {useDispatch, useSelector} from 'react-redux';
 import { useDrop } from 'react-dnd';
-import { addIngredientToConstructor, deleteIngredient } from '../../services/constructor/reducer';
-import { decreaseItemCount, increaseItemCount } from '../../services/all-ingredients/reducer';
+import { addIngredientToConstructor, deleteIngredient, resetConstructor } from '../../services/constructor/reducer';
+import { decreaseItemCount, increaseItemCount, resetItemCount } from '../../services/all-ingredients/reducer';
 import PlugIngredient from './plug-ingredient/plug-ingredient';
 import { uploadOrderIngredients } from '../../services/order/action';
 import { resetOrderDetails } from '../../services/order/reducer';
+import { useNavigate } from 'react-router-dom';
 
 export default function BurgerConstructor(){
+    const navigate = useNavigate();
+    const user = useSelector(function getStore(store) {return store.user.user});
     const constructorData = useSelector(function getStore(store) {return store.constructorIngredients});
     const orderStore = useSelector(store => store.order);
 
@@ -54,7 +57,11 @@ export default function BurgerConstructor(){
     }, [constructorData.mainIngredients, constructorData.bun])
 
     const sendOrder = ()=>{
-        let ids = [...constructorData.mainIngredients.map(elem=>elem._id), constructorData.bun._id];
+        if(!user){
+            navigate("/login");
+            return;
+        }
+        let ids = [...constructorData.mainIngredients.map(elem=>elem._id), constructorData.bun?._id];
         dispatch(uploadOrderIngredients(ids))
     }
 
@@ -64,14 +71,29 @@ export default function BurgerConstructor(){
         }
     }, [orderStore])
 
+    useEffect(()=>{
+        if(!orderStore.isLoading && !orderStore.error) {
+            dispatch(resetItemCount());
+            dispatch(resetConstructor());
+        }
+    }, [orderStore.isLoading, orderStore.error])
+
     const closeOrderDetailsWindow = ()=>{
         setIsNeedShow(false);
         dispatch(resetOrderDetails());
     }
 
+    const GetConstructorLoadingStyle = ()=>{
+        if(orderStore.isLoading) return {opacity: "0.5"}
+    }
+
     return(
         <div className={`${burgerConstructorStyle.constructorStyle}`}>
-            <div ref={dropTarget} className={`${burgerConstructorStyle.containerWrapper} mt-25`}>
+            <div 
+                ref={dropTarget} 
+                style={GetConstructorLoadingStyle()}
+                className={`${burgerConstructorStyle.containerWrapper} mt-25`}
+            >
                 {
                     constructorData.bun ?
                     <ElementWrapper 
@@ -113,7 +135,12 @@ export default function BurgerConstructor(){
                     size="large" htmlType='submit' 
                     onClick={sendOrder}
                 >
-                    Оформить заказ
+                    {
+                        orderStore.isLoading ?
+                        "Оформляем..."
+                        :
+                        "Оформить заказ"
+                    }
                 </Button>
                 <div className={`${burgerConstructorStyle.currency} text text_type_digits-medium mr-10`}>
                     <div className='mr-2'>

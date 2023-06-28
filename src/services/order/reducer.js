@@ -5,7 +5,7 @@ const orderSlice = createSlice({
     name: "order",
     initialState: {
         order: null,
-        laoding: false,
+        isLoading: false,
         error: null
     },
     reducers:{
@@ -16,15 +16,15 @@ const orderSlice = createSlice({
     extraReducers:(builder)=>{
         builder
             .addCase(uploadOrderIngredients.fulfilled, (state,action)=>{
-                state.laoding = false;
+                state.isLoading = false;
                 state.order = action.payload;
             })
             .addCase(uploadOrderIngredients.pending, (state)=>{
-                state.laoding = true;
+                state.isLoading = true;
                 state.error = null;
             })
             .addCase(uploadOrderIngredients.rejected, (state, action)=>{
-                state.laoding = false;
+                state.isLoading = false;
                 state.error = action.payload;
             })
     }

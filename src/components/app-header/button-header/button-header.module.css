@@ -1,4 +1,5 @@
 .button{
+    text-decoration: none;
     border-radius: 40px;
     border: 0;
     background-color: transparent;
@@ -10,6 +11,9 @@
 }
 .active{
     color: #F2F2F3;
+}
+.active svg{
+    fill: #F2F2F3;
 }
 .iconWrapper{
     display: flex;

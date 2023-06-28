@@ -46,8 +46,9 @@ export default function BurgerIngredients(){
         
         categoryWrapperRef.current.addEventListener('scroll', setActiveTab);
         return ()=>{
-            categoryWrapperRef.current.removeEventListener('scroll', setActiveTab);
+            categoryWrapperRef.current?.removeEventListener('scroll', setActiveTab);
         }
+        return;
     }, [])
 
     function selectIngridientAndOpenModal(ingredient){
