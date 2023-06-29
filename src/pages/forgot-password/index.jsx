@@ -6,15 +6,12 @@ import CustomLink from '../../ui/custom-link';
 import forgotPassword from '../../utils/api/forgotPassword';
 import { useNavigate } from 'react-router-dom';
 import { FORGOT_PASSWORD_FLAG } from '../../utils/consts';
+import { useForm } from '../../hooks/useForm';
 
 export default function ForgotPasswordPage(){
     
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({email: ""});
-
-    function writeChangesFrom(e){
-        setFormData({...formData, [e.target.name]: e.target.value});
-    }
+    const [formData, writeChangesFrom] = useForm({email: ""});
 
     function formSubmitHandler(e){
         e.preventDefault();

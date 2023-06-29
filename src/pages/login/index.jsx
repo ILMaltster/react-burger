@@ -5,13 +5,11 @@ import {Input, Button, PasswordInput} from '@ya.praktikum/react-developer-burger
 import CustomLink from '../../ui/custom-link';
 import { useDispatch } from 'react-redux';
 import { fetchLogin } from '../../services/user/actions';
+import { useForm } from '../../hooks/useForm';
 export default function LoginPage(){
 
-    const [formData, setFormData] = useState({email: "", password: ""});
+    const [formData, writeChangesFrom] = useForm({email: "", password: ""});
     const dispatch = useDispatch();
-    function writeChangesFrom(e){
-        setFormData({...formData, [e.target.name]: e.target.value});
-    }
 
     function formSubmitHandler(e){
         e.preventDefault();

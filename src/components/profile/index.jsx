@@ -3,21 +3,18 @@ import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-de
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGetUser, fetchPatchUser } from '../../services/user/actions';
+import { useForm } from '../../hooks/useForm';
 
 export default function Profile(){
     const user = useSelector(state => state.user.user);
 
     const dispatch = useDispatch();
-    const [formData, setFormData] = useState({...user, password: ''});
+    const [formData, writeChangesForm, setFormData] = useForm({...user, password: ''});
     const [buttonState, setButtonState] = useState(false);
 
     useEffect(()=>{
         dispatch(fetchGetUser());
     }, [])
-
-    function writeChangesForm(e){
-        setFormData({...formData, [e.target.name]: e.target.value});
-    }
 
     function formSubmitHandler(e){
         e.preventDefault();

@@ -9,9 +9,13 @@ import IngredientsCategory from './ingredients-category/ingredients-category';
 import { setCurrentIngredient } from '../../services/current-ingredient/reducer';
 
 export default function BurgerIngredients(){
-    const ingredients = useSelector(state=>state.allIngredients.data)
+    const ingredients = useSelector(function GetIngredients(state){ 
+        return state.allIngredients.data
+    })
 
-    const selectedIngredient = useSelector(store=>store.currentIngredient.ingredient)
+    const selectedIngredient = useSelector(function GetSelectedIngredient(store){
+        return store.currentIngredient.ingredient
+    })
     const dispatch = useDispatch();
 
     const [currentTab, setCurrentTab] = useState(INGREDIENT_TYPE_BUN)
@@ -21,6 +25,7 @@ export default function BurgerIngredients(){
     const bunRef = useRef();
     const mainRef = useRef();
     const souceRef = useRef();
+    
     const categoryWrapperRef = useRef();
 
     useEffect(()=>{

@@ -1,5 +1,6 @@
 import checkResponse from "../checkResponse"
 import { SERVER_ADDRESS } from "../consts";
+import fetchWithRefresh from "../fetchWithRefresh";
 
 export default function patchUser(newUserData){
     const options = {
@@ -10,5 +11,5 @@ export default function patchUser(newUserData){
         },
         body: JSON.stringify(newUserData)
     }
-    return fetch(`${SERVER_ADDRESS}/api/auth/user`, options).then(checkResponse)
+    return fetchWithRefresh(`${SERVER_ADDRESS}/api/auth/user`, options).then(checkResponse)
 } 

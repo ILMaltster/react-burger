@@ -6,14 +6,11 @@ import CustomLink from '../../ui/custom-link';
 import { Navigate, useNavigate } from 'react-router-dom';
 import resetPassword from '../../utils/api/resetPassword';
 import { FORGOT_PASSWORD_FLAG } from '../../utils/consts';
+import { useForm } from '../../hooks/useForm';
 
 export default function ResetPasswordPage(){
     const navigate = useNavigate()
-    const [formData, setFormData] = useState({password: "", token: ""});
-
-    function writeChangesFrom(e){
-        setFormData({...formData, [e.target.name]: e.target.value});
-    }
+    const [formData, writeChangesFrom] = useForm({password: "", token: ""});
 
     function formSubmitHandler(e){
         e.preventDefault();

@@ -5,19 +5,17 @@ import CustomLink from '../../ui/custom-link';
 import { useDispatch } from 'react-redux';
 import { fetchRegister } from '../../services/user/actions';
 import { useState } from 'react';
+import { useForm } from '../../hooks/useForm';
 
 export default function RegisterPage(){
-    const [formData, setFormData] = useState({
+    const [formData, writeChanges] = useForm({
         name: "", 
         email: "", 
         password: ""
     });
+    
     const dispatch = useDispatch();
 
-    function writeChanges(e){
-        setFormData({...formData, [e.target.name]: e.target.value});
-        console.log(formData);
-    }
     function formSubmitHandler(e){
         e.preventDefault();
         dispatch(fetchRegister(formData));

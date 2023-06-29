@@ -9,5 +9,5 @@ export default function AuthContainer({children}){
 }
 
 AuthContainer.propTypes = {
-    children: PropTypes.element.isRequired
+    children: PropTypes.any.isRequired
 }
