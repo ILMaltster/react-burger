@@ -1,6 +1,6 @@
-import checkResponse from "../checkResponse"
 import { SERVER_ADDRESS } from "../consts";
 import {IResponseStatus, IUserCredentials} from "../types";
+import request from "../request";
 
 interface IRegisterResponse extends IResponseStatus{
     user:{
@@ -20,5 +20,5 @@ export default function register(authData: IUserCredentials) : Promise<IRegister
         },
         body: JSON.stringify(authData)
     }
-    return fetch(`${SERVER_ADDRESS}/api/auth/register`, options).then(checkResponse<IRegisterResponse>)
+    return request<IRegisterResponse>(`${SERVER_ADDRESS}/api/auth/register`, options);
 } 

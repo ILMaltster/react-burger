@@ -1,6 +1,6 @@
-import checkResponse from "../checkResponse"
 import { SERVER_ADDRESS } from "../consts";
 import {TForgotPasswordData, IResponseStatus} from "../types";
+import request from "../request";
 
 interface IForgotPasswordResponse extends IResponseStatus{
     message: string;
@@ -14,5 +14,5 @@ export default function forgotPassword(formData: TForgotPasswordData):Promise<IF
         },
         body: JSON.stringify(formData)
     }
-    return fetch(`${SERVER_ADDRESS}/api/password-reset`, options).then(checkResponse<IForgotPasswordResponse>);
+    return request<IForgotPasswordResponse>(`${SERVER_ADDRESS}/api/password-reset`, options);
 }

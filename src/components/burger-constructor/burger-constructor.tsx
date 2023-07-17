@@ -74,7 +74,7 @@ export default function BurgerConstructor(): React.ReactElement{
     }, [orderStore])
 
     useEffect(()=>{
-        if(!orderStore.isLoading && !orderStore.error) {
+        if(orderStore.isNeedResetConstructor) {
             // @ts-ignore
             dispatch(resetItemCount());
             dispatch(resetConstructor());

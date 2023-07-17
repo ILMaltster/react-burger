@@ -56,7 +56,7 @@ export default function App() {
               <Route
                 path='/ingredients/:ingredientId'
                 element={
-                  <Modal onClose={handleModalClose} maxWidth="650px">
+                  <Modal title="Детали ингредиента" onClose={handleModalClose} maxWidth="650px">
                     <IngredientDetail/>
                   </Modal>
                 }

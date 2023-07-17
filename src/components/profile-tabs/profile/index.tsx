@@ -1,6 +1,6 @@
 import profileStyle from './profile.module.css';
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useEffect, useState } from 'react';
+import {FormEvent, useEffect, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchGetUser, fetchPatchUser } from '../../../services/user/actions';
 import { useForm } from '../../../hooks/useForm';
@@ -18,7 +18,7 @@ export default function Profile(){
         dispatch(fetchGetUser());
     }, [])
 
-    function formSubmitHandler(e: React.SyntheticEvent){
+    function formSubmitHandler(e: FormEvent<HTMLFormElement>){
         e.preventDefault();
         // @ts-ignore
         dispatch(fetchPatchUser(formData));

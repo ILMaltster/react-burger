@@ -1,6 +1,6 @@
-import checkResponse from "../checkResponse"
 import { SERVER_ADDRESS } from "../consts";
 import {TLoginData} from "../types";
+import request from "../request";
 
 export default function login(authData: TLoginData): Promise<TLoginData>{
     const options = {
@@ -10,5 +10,5 @@ export default function login(authData: TLoginData): Promise<TLoginData>{
         },
         body: JSON.stringify(authData)
     }
-    return fetch(`${SERVER_ADDRESS}/api/auth/login`, options).then(checkResponse<TLoginData>)
+    return request<TLoginData>(`${SERVER_ADDRESS}/api/auth/login`, options);
 } 

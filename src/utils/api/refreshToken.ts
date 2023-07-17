@@ -1,6 +1,6 @@
-import checkResponse from "../checkResponse";
 import { SERVER_ADDRESS } from "../consts";
 import {IResponseStatus} from "../types";
+import request from "../request";
 
 interface IRefreshTokenResponse extends IResponseStatus{
     accessToken: string;
@@ -19,7 +19,6 @@ const refreshToken = ()=>{
         })
     }
 
-    return fetch(`${SERVER_ADDRESS}/api/auth/token`, options)
-        .then(checkResponse<IRefreshTokenResponse>)
-} 
+    return request<IRefreshTokenResponse>(`${SERVER_ADDRESS}/api/auth/token`, options);
+}
 export default refreshToken;

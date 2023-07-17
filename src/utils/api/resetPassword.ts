@@ -1,6 +1,6 @@
-import checkResponse from "../checkResponse";
 import { SERVER_ADDRESS } from "../consts";
 import {IResponseStatus, TResetPasswordData} from "../types";
+import request from "../request";
 
 interface IResetPasswordResponse extends IResponseStatus{
     message: string;
@@ -14,5 +14,5 @@ export default function resetPassword(resetData: TResetPasswordData): Promise<IR
         },
         body: JSON.stringify(resetData)
     }
-    return fetch(`${SERVER_ADDRESS}/api/password-reset/reset`, options).then(checkResponse<IResetPasswordResponse>);
+    return request<IResetPasswordResponse>(`${SERVER_ADDRESS}/api/password-reset/reset`, options);
 }

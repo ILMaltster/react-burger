@@ -1,6 +1,6 @@
-import checkResponse from "../checkResponse"
 import { SERVER_ADDRESS } from "../consts";
 import {IResponseStatus} from "../types";
+import request from "../request";
 
 interface ILogoutResponse extends IResponseStatus{
     message: string;
@@ -15,5 +15,5 @@ export default function logout(): Promise<ILogoutResponse>{
         },
         body: JSON.stringify({token: localStorage.getItem("refreshToken")})
     }
-    return fetch(`${SERVER_ADDRESS}/api/auth/logout`, options).then(checkResponse<ILogoutResponse>)
+    return request<ILogoutResponse>(`${SERVER_ADDRESS}/api/auth/logout`, options);
 } 

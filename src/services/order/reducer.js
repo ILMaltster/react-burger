@@ -6,17 +6,20 @@ const orderSlice = createSlice({
     initialState: {
         order: null,
         isLoading: false,
+        isNeedResetConstructor: false,
         error: null
     },
     reducers:{
         resetOrderDetails: (state)=>{
             state.order = null;
-        }
+            state.isNeedResetConstructor = false;
+        },
     },
     extraReducers:(builder)=>{
         builder
             .addCase(uploadOrderIngredients.fulfilled, (state,action)=>{
                 state.isLoading = false;
+                state.isNeedResetConstructor = true;
                 state.order = action.payload;
             })
             .addCase(uploadOrderIngredients.pending, (state)=>{

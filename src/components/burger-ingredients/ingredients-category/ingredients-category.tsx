@@ -2,7 +2,7 @@ import React, {forwardRef} from 'react';
 import ingredientCategoryStyle from './ingredients-category.module.css'
 import Ingredient from './ingredient/ingredient';
 import { useNavigate, useLocation } from 'react-router-dom';
-import {TConstructorIngredient, IIngredient} from "../../../utils/types";
+import {TConstructorIngredient} from "../../../utils/types";
 
 interface IIngredientsCategory {
     title: string;
@@ -19,7 +19,8 @@ const IngredientsCategory = forwardRef<HTMLDivElement, IIngredientsCategory>((pr
             </h2>
             <div className={`${ingredientCategoryStyle.ingredientsWrapper} mt-6 mr-4 ml-4 mb-10`}>
                 {props?.ingredientsFiltered && props.ingredientsFiltered.map((elem)=>(
-                    <Ingredient 
+                    <Ingredient
+                        key={elem._id}
                         ingredient={elem}
                         onClick={()=>navigate(
                             `/ingredients/${elem._id}`,

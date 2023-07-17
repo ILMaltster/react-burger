@@ -6,13 +6,14 @@ import forgotPassword from '../../utils/api/forgotPassword';
 import { useNavigate } from 'react-router-dom';
 import { FORGOT_PASSWORD_FLAG } from '../../utils/consts';
 import { useForm } from '../../hooks/useForm';
+import {FormEvent} from "react";
 
 export default function ForgotPasswordPage(){
     
     const navigate = useNavigate();
     const [formData, writeChangesFrom] = useForm({email: ""});
 
-    function formSubmitHandler(e: React.SyntheticEvent){
+    function formSubmitHandler(e: FormEvent<HTMLFormElement>){
         e.preventDefault();
 
         forgotPassword(formData)

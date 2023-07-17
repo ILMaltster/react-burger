@@ -1,6 +1,6 @@
-import checkResponse from "../checkResponse";
 import { SERVER_ADDRESS } from "../consts";
 import {IResponseStatus, TIdsListData} from "../types";
+import request from "../request";
 
 interface ISendOrderResponse extends IResponseStatus{
     name: string;
@@ -18,5 +18,5 @@ export default function sendOrder(idsListForOrder: TIdsListData): Promise<ISendO
             authorization: localStorage.getItem('accessToken') as string,
         },
     }
-    return fetch(`${SERVER_ADDRESS}/api/orders`, options).then(checkResponse<ISendOrderResponse>);
+    return request<ISendOrderResponse>(`${SERVER_ADDRESS}/api/orders`, options);
 }

@@ -29,7 +29,7 @@ export default function Modal({children, onClose, title = "", maxWidth="min-cont
             <ModalOverlay onClick={onClose}>
                 <div style={{maxWidth: maxWidth}} className={`${modalStyle.window}`} onClick={(event) =>event.stopPropagation()}>
                     <div className={modalStyle.titleAndXmark}>
-                        <div className={`${modalStyle.title} text text_type_main-large`}>
+                        <div className={`${modalStyle.title} text text_type_main-medium`}>
                             {title}
                         </div>
                         <div className={modalStyle.closeBlock} onClick={onClose}>
