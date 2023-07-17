@@ -2,10 +2,10 @@ import React from 'react';
 import ingredientsStyle from './ingredient.module.css';
 import {CurrencyIcon, Counter} from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag, DragPreviewImage } from 'react-dnd'
-import {IIngredient} from "../../../../utils/types";
+import {TConstructorIngredient, IIngredient} from "../../../../utils/types";
 
 interface IIngredientProps{
-    ingredient: IIngredient;
+    ingredient: TConstructorIngredient;
     onClick: () => void;
 }
 
@@ -24,7 +24,7 @@ export default function Ingredient({ingredient, onClick}: IIngredientProps) : Re
     img.src = ingredient.image;
 
     preview(img);
-    
+
     return(
         <>
             <DragPreviewImage connect={preview} src={ingredient.image}/>
@@ -42,11 +42,11 @@ export default function Ingredient({ingredient, onClick}: IIngredientProps) : Re
                 </div>
                 <div className={`${ingredientsStyle.title} text text_type_main-default`}>{ingredient.name}</div>
                 {
-                    ingredient.countIngredient && ingredient.countIngredient > 0 &&
+                    ingredient.countIngredient > 0 &&
                     <div>
-                        <Counter size="default" count={ingredient?.countIngredient}/>
+                        <Counter size="default" count={ingredient.countIngredient}/>
                     </div>
-                } 
+                }
             </div>
         </>
     )

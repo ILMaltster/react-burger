@@ -17,8 +17,12 @@ export interface IIngredient {
         image_mobile: string;
         image_large: string;
         __v: number;
-        countIngredient?: number;
 }
+
+export type TConstructorIngredient = IIngredient & {
+        countIngredient: number;
+}
+
 
 export interface IIngredientWithKey extends IIngredient{
         key: number;

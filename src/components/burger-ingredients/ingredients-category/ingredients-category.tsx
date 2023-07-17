@@ -2,11 +2,11 @@ import React, {forwardRef} from 'react';
 import ingredientCategoryStyle from './ingredients-category.module.css'
 import Ingredient from './ingredient/ingredient';
 import { useNavigate, useLocation } from 'react-router-dom';
-import {IIngredient} from "../../../utils/types";
+import {TConstructorIngredient, IIngredient} from "../../../utils/types";
 
 interface IIngredientsCategory {
     title: string;
-    ingredientsFiltered: Array<IIngredient>;
+    ingredientsFiltered: Array<TConstructorIngredient>;
 }
 
 const IngredientsCategory = forwardRef<HTMLDivElement, IIngredientsCategory>((props, ref)=>{
