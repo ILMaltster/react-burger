@@ -1,0 +1,34 @@
+.outer{
+    padding: 2px;
+    background: linear-gradient(140deg, #801AB2, #4C4CFF);
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
+    border-radius: 50%;
+}
+.inner{
+    position: relative;
+    background-color: #131316;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+}
+
+.inner > img{
+    height: 70%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.lastItemLayer{
+    border-radius: 50%;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(28, 28, 33, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

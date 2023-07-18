@@ -1,0 +1,5 @@
+.ingredientsWrapper{
+    display: grid;
+    gap: calc(var(--offset-base-size) * 6);
+    grid-template-columns: 1fr 1fr;
+}
