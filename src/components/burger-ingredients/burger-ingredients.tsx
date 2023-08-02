@@ -1,22 +1,17 @@
 import {useEffect, useRef, useState} from 'react';
 import {Tab} from '@ya.praktikum/react-developer-burger-ui-components';
 import burgerIngredientsStyle from './burger-ingredients.module.css';
-import Modal from '../common/modal-window/modal/modal';
-import IngredientDetail from './ingredient-details/ingredient-details';
 import {BUNS, INGREDIENT_TYPES, MAINS, SAUCE} from '../../utils/consts'
-import {useSelector} from 'react-redux';
 import IngredientsCategory from './ingredients-category/ingredients-category';
 import {IIngredient} from "../../utils/types";
+import {useAppSelector} from "../../hooks/useAppSelector";
 
 export default function BurgerIngredients(){
-    const ingredients = useSelector(function GetIngredients(state){
-        // @ts-ignore
+
+    const ingredients = useAppSelector(function GetIngredients(state){
         return state.allIngredients.data
     })
-
     const [currentTab, setCurrentTab] = useState<INGREDIENT_TYPES>(INGREDIENT_TYPES.BUN)
-    
-    const [isNeedShow, setIsNeedShow] = useState<boolean>(false);
     
     const bunRef = useRef<HTMLDivElement>(null);
     const mainRef = useRef<HTMLDivElement>(null);
@@ -121,12 +116,7 @@ export default function BurgerIngredients(){
                     />
                 </>
             </div>
-            {
-                isNeedShow &&
-                <Modal title='Детали ингредиента' onClose={()=>setIsNeedShow(false)} maxWidth='720px'>
-                    <IngredientDetail/>
-                </Modal>   
-            }
+
         </div>
     )
 }

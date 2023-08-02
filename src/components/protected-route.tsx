@@ -1,5 +1,5 @@
 import {useLocation, Navigate} from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import {useAppSelector} from "../hooks/useAppSelector";
 
 type TProtectedRoute = {
     isOnlyUnAuth?: boolean;
@@ -8,10 +8,8 @@ type TProtectedRoute = {
 
 function ProtectedRoute({isOnlyUnAuth = false, component}: TProtectedRoute): React.ReactElement | null{
     
-    // @ts-ignore
-    const isAuthChecked = useSelector(store=> store.user.isAuthChecked);
-    // @ts-ignore
-    const user = useSelector((store) => store.user.user);
+    const isAuthChecked = useAppSelector(store=> store.user.isAuthChecked);
+    const user = useAppSelector((store) => store.user.user);
     const location = useLocation();
     if(!isAuthChecked) return null;
 

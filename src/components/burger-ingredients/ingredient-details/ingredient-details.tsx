@@ -1,18 +1,16 @@
 import React from 'react';
 import ingredientDetailStyle from './ingredient-detail.module.css';
-import { useSelector } from 'react-redux';
 import {useParams} from 'react-router-dom';
 import {IIngredient} from "../../../utils/types";
+import {useAppSelector} from "../../../hooks/useAppSelector";
 
-export default function IngredientDetail(): React.ReactElement{
+export default function IngredientDetail() : React.ReactElement{
     const {ingredientId} = useParams();
 
-    // @ts-ignore
-    const ingredients = useSelector(store=>store.allIngredients.data);
+    const ingredients = useAppSelector(store=>store.allIngredients.data);
     const selectedIngredient = ingredients.find((elem: IIngredient) => elem._id === ingredientId);
 
-    return selectedIngredient &&
-    (
+    return selectedIngredient !== undefined ?(
         <div className={ingredientDetailStyle.wrapper}>
             <img className={ingredientDetailStyle.image} src={selectedIngredient.image_large} alt=""/>
             <div className={`${ingredientDetailStyle.name} mt-4 text text_type_main-medium`}>
@@ -37,5 +35,5 @@ export default function IngredientDetail(): React.ReactElement{
                 </div>
             </div>
         </div>
-    )
+    ) : <></>
 }

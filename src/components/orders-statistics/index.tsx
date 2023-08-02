@@ -1,14 +1,23 @@
 import orderStatisticsStyle from './order-statistics.module.css';
 import fillEmptySpacesZeros from "../../utils/fillEmptySpacesZeros";
+import {TWSOrderHistoryData} from "../../utils/types";
+import {ReactElement, useMemo} from "react";
 
-export default function OrdersStatistics(){
 
-    const fakeReadyOrders = [
-        2, 3, 34533, 8
-    ]
-    const fakeInWorkOrders = [
-        7, 9, 3343, 342343
-    ]
+interface IOrdersStatisticksData{
+    ordersInfo: TWSOrderHistoryData | null;
+}
+
+export default function OrdersStatistics({ordersInfo}: IOrdersStatisticksData): ReactElement{
+
+    const lastReadyOrders = useMemo(()=>{
+        return ordersInfo?.orders.filter(elem=>elem.status === "done").slice(0, 10).map(elem=> elem.number)
+    }, [ordersInfo])
+
+    const lastInWordOrders = useMemo(()=>{
+        return ordersInfo?.orders.filter(elem=>elem.status === "pending").slice(0, 10).map(elem=> elem.number)
+    }, [ordersInfo])
+
 
     return(
         <div className={orderStatisticsStyle.container}>
@@ -18,7 +27,7 @@ export default function OrdersStatistics(){
                         Готовы
                     </div>
                     <div className={`${orderStatisticsStyle.stateReadyOrdersList} text text_type_digits-default`}>
-                        {fakeReadyOrders.map(elem=>(
+                        {lastReadyOrders?.map(elem=>(
                             <div>{fillEmptySpacesZeros(elem, 6)}</div>
                         ))}
                     </div>
@@ -28,7 +37,7 @@ export default function OrdersStatistics(){
                         В работе:
                     </div>
                     <div className={`${orderStatisticsStyle.stateInWorkOrdersList} text text_type_digits-default`}>
-                        {fakeInWorkOrders.map(elem=>(
+                        {lastInWordOrders?.map(elem=>(
                             <div>{fillEmptySpacesZeros(elem, 6)}</div>
                         ))}
                     </div>
@@ -39,7 +48,7 @@ export default function OrdersStatistics(){
                     Выполнено за все время:
                 </div>
                 <div className={`${orderStatisticsStyle.numbersShadow} text_type_digits-large`}>
-                    28752
+                    {ordersInfo?.total}
                 </div>
             </div>
             <div className={orderStatisticsStyle.completedToday}>
@@ -47,7 +56,7 @@ export default function OrdersStatistics(){
                     Выполнено за сегодня:
                 </div>
                 <div className={`${orderStatisticsStyle.numbersShadow} text_type_digits-large`}>
-                    2312
+                    {ordersInfo?.totalToday}
                 </div>
             </div>
 

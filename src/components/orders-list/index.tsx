@@ -1,18 +1,18 @@
 import orderListStyle from './orders-list.module.css'
 import OrdersItem from "../orders-item";
-import {IIngredient} from "../../utils/types";
+import {TOrderHistoryItem} from "../../utils/types";
 
 interface IOrdersList{
-    orderList: Array<Array<IIngredient>>
+    orderList: TOrderHistoryItem[] | null | undefined;
+    isGlobalOrderFeed?: boolean;
 }
 
-export default function OrdersList({orderList}: IOrdersList){
-    console.log(orderList);
+export default function OrdersList({orderList, isGlobalOrderFeed = false}: IOrdersList){
     return(
         <div className={orderListStyle.container}>
             {
-                orderList.map((elem, index)=>(
-                    <OrdersItem order={elem} status={index}/>
+                orderList?.map((elem)=>(
+                    <OrdersItem key={elem.number} order={elem} isGlobalOrderFeed={isGlobalOrderFeed}/>
                 ))
             }
         </div>

@@ -9,7 +9,7 @@ export const loadIngredients = createAsyncThunk(
             return await getIngredients();
         }
         catch(error){
-            thunkAPI.rejectWithValue(error.message)
+            thunkAPI.rejectWithValue(error)
         }
     }
 )

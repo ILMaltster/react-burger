@@ -1,12 +1,10 @@
 import orderDetailsStyle from './order-details.module.css';
 import done from '../../../images/icons/done.svg';
-import { useSelector } from 'react-redux';
 import fillEmptySpacesZeros from "../../../utils/fillEmptySpacesZeros";
+import {useAppSelector} from "../../../hooks/useAppSelector";
 
 export default function OrderDetails(): React.ReactElement{
-    // @ts-ignore
-    const orderStore = useSelector(store => store.order);
-    const orderNumber = orderStore.order.order.number;
+    const orderNumber = useAppSelector(store => store.order.order?.order.number);
     return(
         <div className={`${orderDetailsStyle.wrapper}`}>
             <div className={`${orderDetailsStyle.number} text text_type_digits-large mt-8`}>

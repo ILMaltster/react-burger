@@ -1,12 +1,10 @@
 import { SERVER_ADDRESS } from "../consts";
-import {IResponseStatus, TIdsListData} from "../types";
+import {IResponseStatus, TIdsListData, TReadyOrder} from "../types";
 import request from "../request";
 
-interface ISendOrderResponse extends IResponseStatus{
+export interface ISendOrderResponse extends IResponseStatus{
     name: string;
-    order: {
-        number: number;
-    }
+    order: TReadyOrder;
 }
 
 export default function sendOrder(idsListForOrder: TIdsListData): Promise<ISendOrderResponse>{

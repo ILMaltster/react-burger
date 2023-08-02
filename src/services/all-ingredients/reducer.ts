@@ -1,18 +1,22 @@
-import { createSlice } from '@reduxjs/toolkit'
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import { loadIngredients } from './actions'
 import { INGREDIENT_TYPE_BUN } from '../../utils/consts';
+import {TAllIngredientsInitialState} from "../../utils/redux-types/data";
+import {TConstructorIngredient} from "../../utils/types";
+
+const initialState: TAllIngredientsInitialState = {
+    data: [],
+    isLoading: false,
+    error: ""
+}
 
 const allIngredientsSlice = createSlice({
     name: "allIngredients",
-    initialState: {
-        data: [],
-        isLoading: false,
-        error: null
-    },
+    initialState,
     reducers:{
-        increaseItemCount: (state, action)=>{
+        increaseItemCount: (state, action: PayloadAction<string>)=>{
             state.data = state.data.map(elem=>{
-                if(elem._id === action.payload.id){
+                if(elem._id === action.payload){
                     elem.countIngredient++
                     if(elem.type === INGREDIENT_TYPE_BUN)
                         elem.countIngredient++
@@ -21,9 +25,9 @@ const allIngredientsSlice = createSlice({
                 return elem;
             })
         },
-        decreaseItemCount: (state, action)=>{
+        decreaseItemCount: (state, action: PayloadAction<string>)=>{
             state.data = state.data.map(elem=>{
-                if(elem._id === action.payload.id){
+                if(elem._id === action.payload){
                     elem.countIngredient--
                     if(elem.type === INGREDIENT_TYPE_BUN)
                         elem.countIngredient--
@@ -32,30 +36,28 @@ const allIngredientsSlice = createSlice({
                 return elem;
             })
         },
-        resetItemCount:(state, action)=>{
+        resetItemCount:(state)=>{
             state.data = state.data.map(elem=>{
                 elem.countIngredient = 0
                 return elem;
             })
         }        
     },
-    extraReducers: (builder)=>{
-        builder
-            .addCase(loadIngredients.fulfilled, (state, action)=>{
-                state.data = action.payload.map(elem=>{
-                    elem.countIngredient = 0;
-                    return elem;
-                });
-            })
-            .addCase(loadIngredients.pending, (state)=>{
+    extraReducers: {
+        [loadIngredients.fulfilled.type]: (state, action: PayloadAction<TConstructorIngredient[]>)=>{
+            state.data = action.payload.map<TConstructorIngredient>(elem=>{
+                elem.countIngredient = 0;
+                return elem;
+            });
+        },
+        [loadIngredients.pending.type]: (state)=>{
                 state.isLoading = true;
-                state.error = null
-            })
-            .addCase(loadIngredients.rejected, (state, action)=>{
+                state.error = "";
+        },
+        [loadIngredients.rejected.type]: (state, action)=>{
                 state.isLoading = false;
                 state.error = action.payload;
-            })
-            
+        }
     }
 })
 

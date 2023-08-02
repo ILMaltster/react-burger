@@ -2,10 +2,10 @@ import React, { useRef } from 'react';
 import elementWrapperStyle from './element-wrapper.module.css'
 import {ConstructorElement, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDrag, useDrop } from 'react-dnd';
-import { useDispatch } from 'react-redux';
 import { swapIngredient } from '../../../services/constructor/reducer';
 import {CONSTRUCTOR_INGREDIENTS, INGREDIENT_TYPE_BUN} from '../../../utils/consts';
 import {IIngredientWithKey, TUseDropConstuctor} from "../../../utils/types";
+import {useAppDispatch} from "../../../hooks/useAppDispatch";
 
 interface IElementWrapper {
     ingredient: IIngredientWithKey;
@@ -18,7 +18,7 @@ interface IElementWrapper {
 function ElementWrapper(props: IElementWrapper): React.ReactElement{
     const ingredient = props.ingredient;
     const ref = useRef<HTMLDivElement>(null);
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const [, drop] = useDrop<TUseDropConstuctor, undefined, undefined>({
         accept: CONSTRUCTOR_INGREDIENTS,
         hover: (item)=>{
