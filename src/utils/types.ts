@@ -1,4 +1,5 @@
 import {INGREDIENT_TYPES, WebsocketStatus} from "./consts";
+import {SerializedError} from "@reduxjs/toolkit";
 
 export interface IResponseStatus{
         success: boolean;
@@ -87,6 +88,27 @@ export type TLoginDataWithTokenResponse = IGetUserResponse & {
         refreshToken: string;
 };
 
+export interface IRegisterResponse extends IResponseStatus{
+        user:{
+                email: string;
+                name: string;
+        },
+        accessToken: string;
+        refreshToken: string;
+}
+
+export interface IResetPasswordResponse extends IResponseStatus{
+        message: string;
+}
+
+export interface ILogoutResponse extends IResponseStatus{
+        message: string;
+}
+
+export interface IForgotPasswordResponse extends IResponseStatus{
+        message: string;
+}
+
 export type TResetPasswordData = {
         password: string;
         token: string;
@@ -126,4 +148,8 @@ export type TSelectedOrderInfo = {
 export type TSelectedOrderIngredient = {
    ingredient: TConstructorIngredient;
    count: number;
+}
+
+export type TRejectedData =  {
+        rejectValue: SerializedError;
 }

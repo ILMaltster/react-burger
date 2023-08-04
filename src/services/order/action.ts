@@ -1,28 +1,19 @@
 import { createAsyncThunk} from '@reduxjs/toolkit';
-import sendOrder from '../../utils/api/sendOrder';
+import sendOrder, {ISendOrderResponse} from '../../utils/api/sendOrder';
 import getOrderInfo from "../../utils/api/getOrderInfo";
+import {TRejectedData, TSelectedOrder} from "../../utils/types";
 
 
-export const uploadOrderIngredients = createAsyncThunk(
+export const uploadOrderIngredients = createAsyncThunk<ISendOrderResponse, string[], TRejectedData>(
     'order/uploadOrderIngredients',
-    async (payload: string[], thunkAPI)=>{
-        try{
-            return await sendOrder(payload);
-        }
-        catch(error){
-            thunkAPI.rejectWithValue(error)
-        }
+    async (payload )=>{
+        return await sendOrder(payload);
     }
 )
 
-export const getOrderInfoByNumber = createAsyncThunk(
+export const getOrderInfoByNumber = createAsyncThunk<TSelectedOrder, number, TRejectedData>(
     'order/getOrderInfoByNumber',
-    async (payload: number, thunkAPI)=>{
-        try{
-            return await getOrderInfo(payload);
-        }
-        catch(error){
-            thunkAPI.rejectWithValue(error)
-        }
+    async (payload)=>{
+        return await getOrderInfo(payload);
     }
 )

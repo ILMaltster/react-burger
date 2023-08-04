@@ -9,11 +9,11 @@ import {ISendOrderResponse} from "../api/sendOrder";
 export type TUserInitialState = {
     user: TUserData | null;
     isAuthChecked: boolean;
-    AuthError: string;
+    AuthError: string | undefined;
     profileLoading: boolean;
-    profileError: string,
+    profileError: string | undefined,
     newProfileDataApplied: boolean;
-    newProfileDataAppliedError: string
+    newProfileDataAppliedError: string | undefined
 }
 
 export type TOrderInitialState = {
@@ -21,7 +21,7 @@ export type TOrderInitialState = {
     order: ISendOrderResponse | null;
     isLoading: boolean;
     isNeedResetConstructor: boolean;
-    error: string;
+    error: string | undefined;
 }
 
 export type TConstructorInitialState = {
@@ -32,5 +32,5 @@ export type TConstructorInitialState = {
 export type TAllIngredientsInitialState = {
     data: TConstructorIngredient[];
     isLoading: boolean;
-    error: string;
+    error: string | undefined;
 }

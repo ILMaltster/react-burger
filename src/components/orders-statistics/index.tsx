@@ -28,7 +28,7 @@ export default function OrdersStatistics({ordersInfo}: IOrdersStatisticksData): 
                     </div>
                     <div className={`${orderStatisticsStyle.stateReadyOrdersList} text text_type_digits-default`}>
                         {lastReadyOrders?.map(elem=>(
-                            <div>{fillEmptySpacesZeros(elem, 6)}</div>
+                            <div key={elem}>{fillEmptySpacesZeros(elem, 6)}</div>
                         ))}
                     </div>
                 </div>
@@ -38,7 +38,7 @@ export default function OrdersStatistics({ordersInfo}: IOrdersStatisticksData): 
                     </div>
                     <div className={`${orderStatisticsStyle.stateInWorkOrdersList} text text_type_digits-default`}>
                         {lastInWordOrders?.map(elem=>(
-                            <div>{fillEmptySpacesZeros(elem, 6)}</div>
+                            <div key={elem}>{fillEmptySpacesZeros(elem, 6)}</div>
                         ))}
                     </div>
                 </div>

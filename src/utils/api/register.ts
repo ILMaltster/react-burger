@@ -1,15 +1,6 @@
 import { SERVER_ADDRESS } from "../consts";
-import {IResponseStatus, IUserCredentials} from "../types";
+import {IRegisterResponse, IUserCredentials} from "../types";
 import request from "../request";
-
-interface IRegisterResponse extends IResponseStatus{
-    user:{
-        email: string;
-        name: string;
-    },
-    accessToken: string;
-    refreshToken: string;
-}
 
 export default function register(authData: IUserCredentials) : Promise<IRegisterResponse>{
     console.log(JSON.stringify(authData));

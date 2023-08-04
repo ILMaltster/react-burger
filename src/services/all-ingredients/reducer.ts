@@ -43,21 +43,23 @@ const allIngredientsSlice = createSlice({
             })
         }        
     },
-    extraReducers: {
-        [loadIngredients.fulfilled.type]: (state, action: PayloadAction<TConstructorIngredient[]>)=>{
-            state.data = action.payload.map<TConstructorIngredient>(elem=>{
-                elem.countIngredient = 0;
-                return elem;
-            });
-        },
-        [loadIngredients.pending.type]: (state)=>{
+    extraReducers: builder=>{
+        builder
+            .addCase(loadIngredients.fulfilled, (state, action)=>{
+                state.data = action.payload.map<TConstructorIngredient>(elem =>{
+                    (elem as TConstructorIngredient).countIngredient = 0;
+                    return elem as TConstructorIngredient;
+                });
+            })
+            .addCase(loadIngredients.pending, (state)=>{
                 state.isLoading = true;
                 state.error = "";
-        },
-        [loadIngredients.rejected.type]: (state, action)=>{
+            })
+            .addCase(loadIngredients.rejected, (state, action)=>{
+                console.log(action)
                 state.isLoading = false;
-                state.error = action.payload;
-        }
+                state.error = action.error.message;
+        })
     }
 })
 

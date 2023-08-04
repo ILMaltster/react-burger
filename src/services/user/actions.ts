@@ -7,105 +7,70 @@ import getUser from "../../utils/api/getUser";
 import patchUser from "../../utils/api/patchUser";
 import logout from "../../utils/api/logout";
 import {
+    IForgotPasswordResponse,
+    IGetUserResponse, ILogoutResponse,
+    IRegisterResponse, IResetPasswordResponse,
     IUserCredentials,
-    TForgotPasswordData,
-    TLoginFormData,
+    TForgotPasswordData, TLoginDataWithTokenResponse,
+    TLoginFormData, TRejectedData,
     TResetPasswordData
 } from "../../utils/types";
 
-export const fetchLogin = createAsyncThunk(
+export const fetchLogin = createAsyncThunk<TLoginDataWithTokenResponse, TLoginFormData, TRejectedData>(
     "user/fetchLogin",
-    async (payload: TLoginFormData, thunkAPI)=>{
-        try{
-            return await login(payload);
-        }
-        catch(error){
-            return thunkAPI.rejectWithValue(error);
-        }
+    async (payload)=>{
+        return await login(payload);
     }
 )
 
-export const fetchRegister = createAsyncThunk(
+export const fetchRegister = createAsyncThunk<IRegisterResponse, IUserCredentials, TRejectedData>(
     "user/fetchRegister",
-    async (payload: IUserCredentials, thunkAPI)=>{
-        try{
-            return await register(payload);
-        }
-        catch(error){
-            return thunkAPI.rejectWithValue(error);
-        }
+    async (payload: IUserCredentials)=>{
+        return await register(payload);
     }
 )
 
-export const fetchResetPassword = createAsyncThunk(
+export const fetchResetPassword = createAsyncThunk<IResetPasswordResponse, TResetPasswordData, TRejectedData>(
     "user/fetchResetPassword",
-    async (payload: TResetPasswordData, thunkAPI)=>{
-        try{
-            return await resetPassword(payload);
-        }
-        catch(error){
-            return thunkAPI.rejectWithValue(error);
-        }
+    async (payload)=>{
+        return await resetPassword(payload);
+
     }
 )
 
-export const fetchForgotPassword = createAsyncThunk(
+export const fetchForgotPassword = createAsyncThunk<IForgotPasswordResponse, TForgotPasswordData, TRejectedData>(
     "user/fetchForgotPassword",
-    async (payload: TForgotPasswordData, thunkAPI)=>{
-        try{
-            return await forgotPassword(payload);
-        }
-        catch(error){
-            return thunkAPI.rejectWithValue(error);
-        }
+    async (payload: TForgotPasswordData)=>{
+            return await forgotPassword(payload)
     }
 )
 
-export const fetchGetUser = createAsyncThunk(
+export const fetchGetUser = createAsyncThunk<IGetUserResponse, void, TRejectedData>(
     "user/fetchGetUser",
-    async (payload, thunkAPI)=>{
-        try{
+    async ()=>{
+        return await getUser();
+    }
+)
+
+export const fetchPatchUser = createAsyncThunk<IGetUserResponse,Partial<IUserCredentials>,TRejectedData>(
+    "user/fetchPatchUser",
+    async (payload)=>{
+        return await patchUser(payload);
+    }
+)
+
+export const fetchLogout = createAsyncThunk<ILogoutResponse, void, TRejectedData>(
+    "user/fetchLogout",
+    async ()=>{
+        return await logout();
+    }
+)
+export const checkUser = createAsyncThunk<IGetUserResponse | null, void, TRejectedData>(
+    "user/checkUser",
+    async()=>{
+        if(localStorage.getItem("accessToken")){
             return await getUser();
         }
-        catch(error){
-            return thunkAPI.rejectWithValue(error);
-        }
-    }
-)
-
-export const fetchPatchUser = createAsyncThunk(
-    "user/fetchPatchUser",
-    async (payload:  Partial<IUserCredentials>, thunkAPI)=>{
-        try{
-            return await patchUser(payload);
-        }
-        catch(error){
-            return thunkAPI.rejectWithValue(error);
-        }
-    }
-)
-
-export const fetchLogout = createAsyncThunk(
-    "user/fetchLogout",
-    async (payload, thunkAPI)=>{
-        try{
-            return await logout();
-        }
-        catch(error){
-            return thunkAPI.rejectWithValue(error);
-        }
-    }
-)
-export const checkUser = createAsyncThunk(
-    "user/checkUser",
-    async(payload, thunkAPI)=>{
-        if(localStorage.getItem("accessToken")){
-            try {
-                return await getUser();
-            }
-            catch(error){
-                return thunkAPI.rejectWithValue(error);
-            }
-        }
+        else return null;
     }
 )

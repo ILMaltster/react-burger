@@ -1,15 +1,10 @@
-import { createAsyncThunk} from '@reduxjs/toolkit';
+import {createAsyncThunk} from '@reduxjs/toolkit';
 import getIngredients from '../../utils/api/getIngredients';
+import {IIngredient, TRejectedData} from "../../utils/types";
 
-
-export const loadIngredients = createAsyncThunk(
+export const loadIngredients = createAsyncThunk<IIngredient[], void, TRejectedData>(
     'allIngredients/loadIngredients',
-    async (payload, thunkAPI)=>{
-        try{
+    async ()=>{
             return await getIngredients();
-        }
-        catch(error){
-            thunkAPI.rejectWithValue(error)
-        }
     }
 )

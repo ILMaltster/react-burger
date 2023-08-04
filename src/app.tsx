@@ -22,8 +22,8 @@ export default function App() {
   const dispatch = useAppDispatch();
 
   useEffect(()=>{
-    dispatch(loadIngredients() as any);
-    dispatch(checkUser() as any);
+    dispatch(loadIngredients());
+    dispatch(checkUser());
   }, []);
 
   const handleModalClose = ()=>{

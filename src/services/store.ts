@@ -3,7 +3,7 @@ import { allIngredientsReducer } from './all-ingredients/reducer';
 import { constructorIngredientsReducer } from './constructor/reducer';
 import { orderReducer } from './order/reducer';
 import { userReducer } from './user/reducer';
-import {socketOwnOrderHistoryMiddleware} from "../utils/middleware/socket-own-order-history";
+import {socketMiddleware} from "../utils/middleware/socket";
 import {
     closeSetStatusOwnOrderHistory, disconnectOwnOrderHistory, connectOwnOrderHistory,
     connectingSetStatusOwnOrderHistory, errorSetOwnOrderHistory, messageSetOwnOrderHistory,
@@ -16,27 +16,26 @@ import {
     disconnectGeneralOrderHistory, errorSetGeneralOrderHistory, messageSetGeneralOrderHistory,
     openSetStatusGeneralOrderHistory
 } from "./general-order-history/actions";
-import {socketGeneralOrderHistoryMiddleware} from "../utils/middleware/socket-general-order-history";
 import {generalOrderHistoryReducer} from "./general-order-history/reducer";
 
 const wsOwnHistoryActions = {
-    connectOwnOrderHistory: connectOwnOrderHistory,
-    disconnectOwnOrderHistory: disconnectOwnOrderHistory,
-    openSetStatusOwnOrderHistory: openSetStatusOwnOrderHistory,
-    closeSetStatusOwnOrderHistory: closeSetStatusOwnOrderHistory,
-    errorSetOwnOrderHistory: errorSetOwnOrderHistory,
-    messageSetOwnOrderHistory: messageSetOwnOrderHistory,
-    connectingSetStatusOwnOrderHistory:connectingSetStatusOwnOrderHistory
+    connect: connectOwnOrderHistory,
+    disconnect: disconnectOwnOrderHistory,
+    openSetStatus: openSetStatusOwnOrderHistory,
+    closeSetStatus: closeSetStatusOwnOrderHistory,
+    errorSet: errorSetOwnOrderHistory,
+    messageSet: messageSetOwnOrderHistory,
+    connectingSetStatus:connectingSetStatusOwnOrderHistory
 }
 
 const wsGeneralHistoryActions = {
-    connectGeneralOrderHistory: connectGeneralOrderHistory,
-    disconnectGeneralOrderHistory: disconnectGeneralOrderHistory,
-    openSetStatusGeneralOrderHistory: openSetStatusGeneralOrderHistory,
-    closeSetStatusGeneralOrderHistory: closeSetStatusGeneralOrderHistory,
-    errorSetGeneralOrderHistory: errorSetGeneralOrderHistory,
-    messageSetGeneralOrderHistory: messageSetGeneralOrderHistory,
-    connectingSetStatusGeneralOrderHistory:connectingSetStatusGeneralOrderHistory
+    connect: connectGeneralOrderHistory,
+    disconnect: disconnectGeneralOrderHistory,
+    openSetStatus: openSetStatusGeneralOrderHistory,
+    closeSetStatus: closeSetStatusGeneralOrderHistory,
+    errorSet: errorSetGeneralOrderHistory,
+    messageSet: messageSetGeneralOrderHistory,
+    connectingSetStatus: connectingSetStatusGeneralOrderHistory
 }
 
 const rootReducer = combineReducers({
@@ -48,8 +47,8 @@ const rootReducer = combineReducers({
     generalOrderHistory: generalOrderHistoryReducer
 })
 
-const ownOrderHistoryMiddleware = socketOwnOrderHistoryMiddleware(wsOwnHistoryActions);
-const generalOrderHistoryMiddleware = socketGeneralOrderHistoryMiddleware(wsGeneralHistoryActions);
+const ownOrderHistoryMiddleware = socketMiddleware(wsOwnHistoryActions);
+const generalOrderHistoryMiddleware = socketMiddleware(wsGeneralHistoryActions);
 
 export const getStore = () =>{
     return configureStore({
