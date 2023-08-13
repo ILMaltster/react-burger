@@ -28,7 +28,7 @@ export type TSelectedOrder = IResponseStatus & {
         orders: TOrderHistoryItem[]
 }
 
-export interface IIngredientWithKey extends IIngredient{
+export interface IIngredientWithKey extends TConstructorIngredient{
         key: number;
 }
 

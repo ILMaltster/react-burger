@@ -20,7 +20,6 @@ export default function BurgerIngredients(){
     const categoryWrapperRef = useRef<HTMLDivElement>(null);
 
     useEffect(()=>{
-
         const setActiveTab = ()=>{
             const bunCoords = bunRef.current!.getBoundingClientRect();
             const mainCoords = mainRef.current!.getBoundingClientRect();
@@ -89,32 +88,30 @@ export default function BurgerIngredients(){
             </div>
             <div 
                 className={`${burgerIngredientsStyle.IngredientsCategoryWrapper} custom-scroll pt-5`}
-                ref={categoryWrapperRef}
+                ref={categoryWrapperRef} id="ingredientsMenu"
             >
-               <>
-                    <IngredientsCategory
-                        ref={bunRef} 
-                        title={BUNS} 
-                        ingredientsFiltered={
-                        ingredients?.filter && ingredients.filter(
-                            (elem: IIngredient) => elem.type === INGREDIENT_TYPES.BUN)
-                        }
-                    />
-                    <IngredientsCategory
-                        ref={sauceRef}
-                        title={SAUCE} 
-                        ingredientsFiltered={ingredients?.filter && ingredients?.filter(
-                            (elem: IIngredient) => elem.type === INGREDIENT_TYPES.SAUCE)
-                        }
-                    />
-                    <IngredientsCategory 
-                        ref={mainRef} 
-                        title={MAINS} 
-                        ingredientsFiltered={ingredients?.filter && ingredients?.filter(
-                            (elem: IIngredient) => elem.type === INGREDIENT_TYPES.MAIN)
-                        }
-                    />
-                </>
+                <IngredientsCategory
+                    ref={bunRef}
+                    title={BUNS}
+                    ingredientsFiltered={
+                    ingredients?.filter && ingredients.filter(
+                        (elem: IIngredient) => elem.type === INGREDIENT_TYPES.BUN)
+                    }
+                />
+                <IngredientsCategory
+                    ref={sauceRef}
+                    title={SAUCE}
+                    ingredientsFiltered={ingredients?.filter && ingredients?.filter(
+                        (elem: IIngredient) => elem.type === INGREDIENT_TYPES.SAUCE)
+                    }
+                />
+                <IngredientsCategory
+                    ref={mainRef}
+                    title={MAINS}
+                    ingredientsFiltered={ingredients?.filter && ingredients?.filter(
+                        (elem: IIngredient) => elem.type === INGREDIENT_TYPES.MAIN)
+                    }
+                />
             </div>
 
         </div>

@@ -4,9 +4,9 @@ import {
     fetchGetUser, fetchPatchUser, fetchLogout, checkUser
 } from "./actions";
 import {TUserInitialState} from "../../utils/redux-types/data";
-import {IGetUserResponse, TUserData} from "../../utils/types";
+import {IGetUserResponse} from "../../utils/types";
 
-const initialState: TUserInitialState = {
+export const initialState: TUserInitialState = {
     user: null,
     isAuthChecked: false,
     AuthError: '',
@@ -20,12 +20,6 @@ const userSlice = createSlice({
     name: "user",
     initialState,
     reducers:{
-        setAuthChecked: (state, action: PayloadAction<boolean>)=>{
-            state.isAuthChecked = action.payload;
-        },
-        setUser: (state, action: PayloadAction<TUserData | null>)=>{
-            state.user = action.payload;
-        }
     },
     extraReducers: builder => {
         builder
@@ -90,12 +84,11 @@ const userSlice = createSlice({
             })
             .addCase(checkUser.rejected, (state)=>{
                 state.isAuthChecked = true;
+                state.user = null;
                 localStorage.removeItem("accessToken");
                 localStorage.removeItem("refreshToken");
-                state.user = null;
             })
     }
 })
 
-export const {setAuthChecked, setUser} = userSlice.actions;
 export const userReducer = userSlice.reducer

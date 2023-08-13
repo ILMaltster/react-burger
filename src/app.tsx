@@ -35,7 +35,7 @@ export default function App() {
       <AppHeader/>
       <main className='pr-4 pl-4'>
         <Routes location={background || location}>
-          <Route path='/' element={<pages.ConstructorPage/>}/>
+          <Route index element={<pages.ConstructorPage/>}/>
           <Route path='/feed' element={<pages.OrderFeedPage/>}/>
           <Route path='/feed/:orderNumber' element={<OrderDetails/>}/>
           <Route path='/ingredients/:ingredientId' element={<IngredientDetail/>}/>

@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 import {getOrderInfoByNumber, uploadOrderIngredients} from './action';
 import {TOrderInitialState} from "../../utils/redux-types/data";
 
-const initialState: TOrderInitialState = {
+export const initialState: TOrderInitialState = {
     selectedOrder: null,
     order: null,
     isLoading: false,
@@ -24,7 +24,6 @@ const orderSlice = createSlice({
             .addCase(uploadOrderIngredients.fulfilled, (state, action)=>{
                 state.isLoading = false;
                 state.isNeedResetConstructor = true;
-                console.log(action.payload);
                 state.order = action.payload;
             })
             .addCase(uploadOrderIngredients.pending, (state)=>{

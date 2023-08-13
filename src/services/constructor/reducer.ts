@@ -3,7 +3,7 @@ import { INGREDIENT_TYPE_BUN } from '../../utils/consts';
 import {TConstructorInitialState} from "../../utils/redux-types/data";
 import {IIngredientWithKey, TSwapConstructorElem} from "../../utils/types";
 
-const initialState: TConstructorInitialState= {
+export const initialState: TConstructorInitialState= {
     mainIngredients: [],
     bun: null
 }
@@ -13,12 +13,10 @@ const constructorSlice = createSlice({
     initialState,
     reducers: {
         addIngredientToConstructor:(state, action:PayloadAction<IIngredientWithKey> )=>{
-            if(action.payload.type === INGREDIENT_TYPE_BUN){
+            if(action.payload.type === INGREDIENT_TYPE_BUN)
                 state.bun = action.payload;
-            }
-            else{
-                state.mainIngredients.push({...action.payload});
-            }
+            else
+                state.mainIngredients.push(action.payload);
         },
         deleteIngredient:(state, action:PayloadAction<number>)=>{
             state.mainIngredients = state.mainIngredients.filter(elem=>elem.key !== action.payload)

@@ -4,7 +4,7 @@ import { INGREDIENT_TYPE_BUN } from '../../utils/consts';
 import {TAllIngredientsInitialState} from "../../utils/redux-types/data";
 import {TConstructorIngredient} from "../../utils/types";
 
-const initialState: TAllIngredientsInitialState = {
+export const initialState: TAllIngredientsInitialState = {
     data: [],
     isLoading: false,
     error: ""
@@ -47,7 +47,8 @@ const allIngredientsSlice = createSlice({
         builder
             .addCase(loadIngredients.fulfilled, (state, action)=>{
                 state.data = action.payload.map<TConstructorIngredient>(elem =>{
-                    (elem as TConstructorIngredient).countIngredient = 0;
+                    let newElem = {...elem} as TConstructorIngredient;
+                    newElem.countIngredient = 0;
                     return elem as TConstructorIngredient;
                 });
             })
@@ -56,7 +57,6 @@ const allIngredientsSlice = createSlice({
                 state.error = "";
             })
             .addCase(loadIngredients.rejected, (state, action)=>{
-                console.log(action)
                 state.isLoading = false;
                 state.error = action.error.message;
         })

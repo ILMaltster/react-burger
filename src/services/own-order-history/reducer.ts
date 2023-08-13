@@ -7,7 +7,7 @@ import {
     openSetStatusOwnOrderHistory
 } from './actions'
 
-const initialState: TWSOrderHistoryResponse = {
+export const initialState: TWSOrderHistoryResponse = {
     status: WebsocketStatus.OFFLINE,
     connectionError: '',
     data: null
