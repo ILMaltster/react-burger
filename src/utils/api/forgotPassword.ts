@@ -1,10 +1,6 @@
 import { SERVER_ADDRESS } from "../consts";
-import {TForgotPasswordData, IResponseStatus} from "../types";
+import {TForgotPasswordData, IForgotPasswordResponse} from "../types";
 import request from "../request";
-
-interface IForgotPasswordResponse extends IResponseStatus{
-    message: string;
-}
 
 export default function forgotPassword(formData: TForgotPasswordData):Promise<IForgotPasswordResponse> {
     const options = {

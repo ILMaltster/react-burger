@@ -4,13 +4,13 @@ import profileStyle from "./profile.module.css";
 import { Outlet, useLocation } from "react-router-dom";
 import { PROFILE_TAB_DESCRIPTION_ORDER_HISTORY, PROFILE_TAB_DESCRIPTION_PROFILE } from '../../utils/consts';
 import CustomButtonFakeNavLink from '../../ui/custom-button-fake-navlink';
-import { useDispatch } from 'react-redux';
 import { fetchLogout } from '../../services/user/actions';
+import {useAppDispatch} from "../../hooks/useAppDispatch";
 
 export default function ProfilePage(){
     const location = useLocation();
     const [description, setDescription] = useState<string>(PROFILE_TAB_DESCRIPTION_PROFILE);
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     useEffect(()=>{
         const pathElements = location.pathname.split('/');
         const currentPage = pathElements.at(-1) === "" ? pathElements.at(-2) : pathElements.at(-1);
@@ -24,8 +24,7 @@ export default function ProfilePage(){
         }
     }, [location])
 
-    // @ts-ignore
-    const logout = ()=>dispatch(fetchLogout())
+    const logout = ()=> dispatch(fetchLogout())
 
     return(
         <div className={`${profileStyle.container}`}>

@@ -2,23 +2,20 @@ import loginStyle from './login.module.css';
 import AuthContainer from '../../ui/auth-container';
 import {Input, Button, PasswordInput} from '@ya.praktikum/react-developer-burger-ui-components'
 import CustomLink from '../../ui/custom-link';
-import { useDispatch } from 'react-redux';
 import { fetchLogin } from '../../services/user/actions';
 import { useForm } from '../../hooks/useForm';
+import {useAppDispatch} from "../../hooks/useAppDispatch";
+import {TLoginFormData} from "../../utils/types";
 
-type LoginFormData = {
-    email: string,
-    password: string
-}
+
 
 export default function LoginPage(){
-    const [formData, writeChangesFrom] = useForm<LoginFormData>({email: "", password: ""});
-    const dispatch = useDispatch();
+    const [formData, writeChangesFrom] = useForm<TLoginFormData>({email: "", password: ""});
+    const dispatch = useAppDispatch();
 
     function formSubmitHandler(e: React.SyntheticEvent){
         e.preventDefault();
-        // @ts-ignore
-        dispatch(fetchLogin(formData) as any);
+        dispatch(fetchLogin(formData));
     }
 
     return(

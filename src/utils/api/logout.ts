@@ -1,10 +1,8 @@
 import { SERVER_ADDRESS } from "../consts";
-import {IResponseStatus} from "../types";
+import {ILogoutResponse} from "../types";
 import request from "../request";
 
-interface ILogoutResponse extends IResponseStatus{
-    message: string;
-}
+
 
 export default function logout(): Promise<ILogoutResponse>{
     const options = {

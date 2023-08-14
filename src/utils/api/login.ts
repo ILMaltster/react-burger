@@ -1,8 +1,8 @@
 import { SERVER_ADDRESS } from "../consts";
-import {TLoginData} from "../types";
+import {TLoginDataWithTokenResponse, TLoginFormData} from "../types";
 import request from "../request";
 
-export default function login(authData: TLoginData): Promise<TLoginData>{
+export default function login(authData: TLoginFormData): Promise<TLoginDataWithTokenResponse>{
     const options = {
         method: "POST",
         headers: {
@@ -10,5 +10,5 @@ export default function login(authData: TLoginData): Promise<TLoginData>{
         },
         body: JSON.stringify(authData)
     }
-    return request<TLoginData>(`${SERVER_ADDRESS}/api/auth/login`, options);
+    return request<TLoginDataWithTokenResponse>(`${SERVER_ADDRESS}/api/auth/login`, options);
 } 

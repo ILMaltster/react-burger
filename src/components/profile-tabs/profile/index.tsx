@@ -1,26 +1,29 @@
 import profileStyle from './profile.module.css';
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import {FormEvent, useEffect, useState} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { fetchGetUser, fetchPatchUser } from '../../../services/user/actions';
 import { useForm } from '../../../hooks/useForm';
+import {useAppSelector} from "../../../hooks/useAppSelector";
+import {useAppDispatch} from "../../../hooks/useAppDispatch";
+import {TUserData} from "../../../utils/types";
+
+type TProfileFormData = TUserData &{
+    password:string;
+}
 
 export default function Profile(){
-    // @ts-ignore
-    const user = useSelector(state => state.user.user);
+    const user = useAppSelector(state => state.user.user) as TUserData;
 
-    const dispatch = useDispatch();
-    const [formData, writeChangesForm, setFormData] = useForm({...user, password: ''});
+    const dispatch = useAppDispatch();
+    const [formData, writeChangesForm, setFormData] = useForm<TProfileFormData>({...user, password: ''});
     const [buttonState, setButtonState] = useState(false);
 
     useEffect(()=>{
-        // @ts-ignore
         dispatch(fetchGetUser());
     }, [])
 
     function formSubmitHandler(e: FormEvent<HTMLFormElement>){
         e.preventDefault();
-        // @ts-ignore
         dispatch(fetchPatchUser(formData));
     }
 
@@ -34,7 +37,7 @@ export default function Profile(){
                 if(formData[key].trim() !== '')   
                     return true; 
             }
-            else if(formData[key] !== user[key])
+            else if(formData[key as keyof TUserData] !== user[key as keyof TUserData])
                 return true;
         }
         return false;
@@ -48,13 +51,13 @@ export default function Profile(){
     return(
         <form className={`${profileStyle.container} mt-30`} onSubmit={formSubmitHandler}>
             <Input 
-                value={formData.name} 
+                value={formData.name ? formData.name : ""}
                 onChange={writeChangesForm} 
                 name='name'
                 placeholder='Имя'
             />
             <EmailInput 
-                value={formData.email} 
+                value={formData.email ? formData.email: ""}
                 onChange={writeChangesForm} 
                 name='email'
                 placeholder='E-mail'

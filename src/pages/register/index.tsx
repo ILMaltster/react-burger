@@ -2,10 +2,10 @@ import registerStyle from './register.module.css';
 import AuthContainer from '../../ui/auth-container';
 import { Input, Button, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components'
 import CustomLink from '../../ui/custom-link';
-import { useDispatch } from 'react-redux';
 import { fetchRegister } from '../../services/user/actions';
 import React from 'react';
 import { useForm } from '../../hooks/useForm';
+import {useAppDispatch} from "../../hooks/useAppDispatch";
 
 export default function RegisterPage(){
     const [formData, writeChanges] = useForm({
@@ -14,11 +14,10 @@ export default function RegisterPage(){
         password: ""
     });
     
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     function formSubmitHandler(e: React.FormEvent){
         e.preventDefault();
-        // @ts-ignore
         dispatch(fetchRegister(formData));
     }
 

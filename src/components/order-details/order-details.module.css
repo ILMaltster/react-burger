@@ -1,4 +1,33 @@
+.container{
+    max-width: 800px;
+    margin: auto;
+}
 .number{
     display: flex;
     justify-content: center;
+}
+.structureContainer{
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--offset-base-size) * 4);
+    padding-right: calc(var(--offset-base-size) * 6);
+    overflow-y: auto;
+    height: 200px;
+}
+.ingredientItem{
+    display: grid;
+    grid-template-columns: min-content 1fr min-content;
+    gap: calc(var(--offset-base-size) * 4);
+    align-items: center;
+}
+.priceContainer{
+    display: flex;
+    gap: 10px;
+}
+.someInfo{
+    display: flex;
+    justify-content: space-between;
+}
+.ingredientPriceContainer{
+    display: flex;
 }

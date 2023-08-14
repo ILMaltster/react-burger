@@ -8,7 +8,7 @@ export default function AppHeader(): React.ReactElement{
         <header className={appHeaderStyle.header + " p-4"}>
             <div className={appHeaderStyle.nav}>
                 <ButtonHeader to="/" icon={BurgerIcon}>Конструктор</ButtonHeader>
-                <ButtonHeader to="/orders" icon={ListIcon}>Лента заказов</ButtonHeader>
+                <ButtonHeader to="/feed" icon={ListIcon}>Лента заказов</ButtonHeader>
             </div>
             <div className={appHeaderStyle.logoWrapper}>
                 <Logo />

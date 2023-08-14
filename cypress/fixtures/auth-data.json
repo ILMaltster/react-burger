@@ -1,0 +1,9 @@
+{
+  "success": true,
+  "accessToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0NzJmOTVkOGE0YjYyMDAxYzg0MWU4YSIsImlhdCI6MTY5MTkyNjYyMSwiZXhwIjoxNjkxOTI3ODIxfQ.ddaa3v7veyhzKU5643pAACvopHMkyIfVkf7zQsrGvec",
+  "refreshToken": "6955fbc216acbacd2c302d57910b7263c47e759b8434159371633af246bd9f3f6bba19ee73340cdc",
+  "user": {
+    "email": "solodovnik@email.com",
+    "name": "ilya"
+  }
+}

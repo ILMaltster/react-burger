@@ -5,7 +5,6 @@ import {Button, CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-comp
 import Modal from '../common/modal-window/modal/modal';
 import OrderDetails from './order-details/order-details';
 import {INGREDIENT_TYPES} from '../../utils/consts'
-import {useDispatch, useSelector} from 'react-redux';
 import {useDrop} from 'react-dnd';
 import {addIngredientToConstructor, deleteIngredient, resetConstructor} from '../../services/constructor/reducer';
 import {decreaseItemCount, increaseItemCount, resetItemCount} from '../../services/all-ingredients/reducer';
@@ -13,35 +12,34 @@ import PlugIngredient from './plug-ingredient/plug-ingredient';
 import {uploadOrderIngredients} from '../../services/order/action';
 import {resetOrderDetails} from '../../services/order/reducer';
 import {useNavigate} from 'react-router-dom';
-import {IIngredient, IIngredientWithKey, TUseDropConstuctor} from "../../utils/types";
+import {IIngredient, IIngredientWithKey} from "../../utils/types";
+import {useAppSelector} from "../../hooks/useAppSelector";
+import {useAppDispatch} from "../../hooks/useAppDispatch";
 
 export default function BurgerConstructor(): React.ReactElement{
     const navigate = useNavigate();
-    // @ts-ignore
-    const user = useSelector(function getStore(store) {return store.user.user});
-    // @ts-ignore
-    const constructorData = useSelector(function getStore(store) {return store.constructorIngredients});
-    // @ts-ignore
-    const orderStore = useSelector(store => store.order);
+    const user = useAppSelector(function getStore(store) {return store.user.user});
+    const constructorData = useAppSelector(function getStore(store) {return store.constructorIngredients});
+    const orderStore = useAppSelector(store => store.order);
 
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
-    const [, dropTarget] = useDrop<TUseDropConstuctor, void, undefined>({
+    const [, dropTarget] = useDrop<IIngredientWithKey, void, undefined>({
         accept: "ingredient",
         drop(item){
-            dispatch(addIngredientToConstructor({item : {...item, key: Math.random()}}));
+            dispatch(addIngredientToConstructor({...item, key: Math.random()}));
             if(item.type === INGREDIENT_TYPES.BUN && constructorData.bun)
-                dispatch(decreaseItemCount({id: constructorData.bun._id}))
+                dispatch(decreaseItemCount( constructorData.bun._id));
 
-            dispatch(increaseItemCount({id: item._id}))
+            dispatch(increaseItemCount(item._id))
         }
     })
 
     const [isNeedShow, setIsNeedShow] = useState<boolean>(false);
 
     const deleteIngredientFromConstructor = (item: IIngredientWithKey)=>{
-        dispatch(decreaseItemCount({id: item._id}))
-        dispatch(deleteIngredient({key: item.key}))
+        dispatch(decreaseItemCount(item._id))
+        dispatch(deleteIngredient(item.key))
     }
 
     const calculateOrderPrice = useMemo(()=>{
@@ -52,7 +50,7 @@ export default function BurgerConstructor(): React.ReactElement{
             );
         
         if(constructorData.bun)
-            price += constructorData.bun.price * 2
+            price += constructorData.bun.price
 
         return price;
     }, [constructorData.mainIngredients, constructorData.bun])
@@ -62,8 +60,8 @@ export default function BurgerConstructor(): React.ReactElement{
             navigate("/login");
             return;
         }
-        let ids = [...constructorData.mainIngredients.map((elem: IIngredient) => elem._id), constructorData.bun?._id];
-        // @ts-ignore
+        if(!constructorData.bun) return;
+        let ids: string[] = [...constructorData.mainIngredients.map((elem: IIngredient) => elem._id), constructorData.bun._id];
         dispatch(uploadOrderIngredients(ids))
     }
 
@@ -75,7 +73,6 @@ export default function BurgerConstructor(): React.ReactElement{
 
     useEffect(()=>{
         if(orderStore.isNeedResetConstructor) {
-            // @ts-ignore
             dispatch(resetItemCount());
             dispatch(resetConstructor());
         }

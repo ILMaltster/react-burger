@@ -1,4 +1,6 @@
-export const SERVER_ADDRESS: string = "https://norma.nomoreparties.space";
+export const SERVER_ADDRESS = "https://norma.nomoreparties.space";
+export const WS_SERVER_ADDRESS_OWN_ORDERS = "wss://norma.nomoreparties.space/orders";
+export const WS_SERVER_ADDRESS_GENERAL_ORDERS = "wss://norma.nomoreparties.space/orders/all";
 
 export const CONSTRUCTOR_INGREDIENTS = "constructorIngredient";
 
@@ -26,4 +28,10 @@ export enum ORDER_STATUS{
     CREATED,
     COOKING,
     READY
+}
+
+export enum WebsocketStatus {
+    CONNECTING = 'CONNECTING',
+    ONLINE = 'ONLINE',
+    OFFLINE = 'OFFLINE'
 }

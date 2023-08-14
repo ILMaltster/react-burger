@@ -1,73 +1,72 @@
 import orderItemStyle from './order-item.module.css'
-import {CurrencyIcon} from '@ya.praktikum/react-developer-burger-ui-components';
+import {CurrencyIcon, FormattedDate} from '@ya.praktikum/react-developer-burger-ui-components';
 import Ingredient from "./ingredient";
-import {ORDER_STATUS} from "../../utils/consts";
-import {useCallback} from "react";
-import {IIngredient} from "../../utils/types";
+import {useMemo} from "react";
+import {TConstructorIngredient, TOrderHistoryItem} from "../../utils/types";
+import {useAppSelector} from "../../hooks/useAppSelector";
+import fillEmptySpacesZeros from "../../utils/fillEmptySpacesZeros";
+import GetStatusTitle from "../../ui/order-status";
+import {useLocation, useNavigate} from "react-router-dom";
 
 interface IOrdersItem{
-    order: Array<IIngredient>;
-    status: ORDER_STATUS;
+    order: TOrderHistoryItem;
+    isGlobalOrderFeed?: boolean;
 }
 
-export default function OrdersItem({order, status = ORDER_STATUS.NONE}: IOrdersItem) : React.ReactElement{
+export default function OrdersItem({order, isGlobalOrderFeed = false}: IOrdersItem) : React.ReactElement{
+    const navigate = useNavigate();
+    const location = useLocation();
+    const ingredientsCatalog = useAppSelector(store => store.allIngredients.data);
 
-    const GetStatusTitle = useCallback(()=>{
-        const defText = "text text_type_main-small mt-2"
+    const orderIngredients = useMemo(()=>{
+        let res: TConstructorIngredient[] = [];
+        order.ingredients.forEach(value => {
+            let findedItem = ingredientsCatalog.find(catalogElem => catalogElem._id === value)
+            findedItem && res.push(findedItem);
+        })
+        return res.sort((a, b ) => {if(a.type === "bun" && b.type !== "bun") return -1; return 0;});
+    }, [order])
 
-        switch (status){
-            case ORDER_STATUS.NONE:
-                return null
-            case ORDER_STATUS.CREATED:
-                return (
-                    <div className={defText}>
-                        Создан
-                    </div>
-                )
-            case ORDER_STATUS.COOKING:
-                return (
-                    <div className={defText}>
-                        Готовится
-                    </div>
-                )
-            case ORDER_STATUS.READY:
-                return (
-                    <div className={`${defText} ${orderItemStyle.statusReady}`}>
-                        Выполнен
-                    </div>
-                )
+    const orderPrice = useMemo(()=>{
+        return orderIngredients.reduce((accum, elem) =>
+             accum + elem.price
+        , 0);
+    }, [orderIngredients])
 
-        }
-    }, [])
     return(
-        <div className={orderItemStyle.container}>
+        <div className={orderItemStyle.container} onClick={()=>navigate(
+            `${order.number}`,
+            {
+                state: {background: location}
+            }
+            )}>
             <div className={orderItemStyle.header}>
-                <div className="text text_type_digits-default">#034355</div>
-                <div className="text text_type_main-small text_color_inactive">Сегодня, 16:20</div>
+                <div className="text text_type_digits-default">#{fillEmptySpacesZeros(order.number, 6)}</div>
+                <div className="text text_type_main-small text_color_inactive"><FormattedDate date={new Date(order.createdAt)}/></div>
             </div>
             <div className="text text_type_main-default">
-                Death Star Starship main бургер
-                <GetStatusTitle/>
+                {order.name}
+                <GetStatusTitle status={order.status} isGlobalOrderFeed={isGlobalOrderFeed}/>
             </div>
-
 
             <div className={orderItemStyle.details}>
                 <div className={orderItemStyle.ingredientsList}>
                     {
-                        order
-                            .slice(0, order.length < 6 ? order.length : 6)
+                        orderIngredients
+                            .slice(0, orderIngredients.length < 6 ? orderIngredients.length : 6)
                             .map((elem, index, slicedOrder)=>(
                                 <Ingredient
+                                    key={index}
                                     ingredient={elem}
                                     index={index}
                                     slicedTotal={slicedOrder.length}
-                                    total={order.length}
+                                    total={orderIngredients.length}
                                 />
                             ))
                     }
                 </div>
                 <div className={orderItemStyle.price}>
-                    <span className="text text_type_digits-default">420</span>
+                    <span className="text text_type_digits-default">{orderPrice}</span>
                     <CurrencyIcon type="primary"/>
                 </div>
             </div>

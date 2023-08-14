@@ -1,10 +1,7 @@
 import { SERVER_ADDRESS } from "../consts";
-import {IResponseStatus, TResetPasswordData} from "../types";
+import {IResetPasswordResponse, TResetPasswordData} from "../types";
 import request from "../request";
 
-interface IResetPasswordResponse extends IResponseStatus{
-    message: string;
-}
 
 export default function resetPassword(resetData: TResetPasswordData): Promise<IResetPasswordResponse>{
     const options = {
